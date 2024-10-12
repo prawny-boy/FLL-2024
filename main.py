@@ -26,6 +26,7 @@ class Robot:
         # Defines the hub
         self.hub = PrimeHub()
     
+    # add wait parameter to plug in to functions for these below
     def MoveSmallMotorInDegrees(self, degrees:int, speed:int=100):
         self.small.run_angle(speed, degrees)
     
@@ -120,18 +121,18 @@ class Animations:
 
 # run functions
 def run1(r:Robot):
-    r.driveBase.turn(-90)
-    r.driveBase.straight(100)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(100)
     # do 4 sqaure crab thing
-    r.driveBase.straight(-20)
-    r.driveBase.turn(90)
-    r.driveBase.straight(100)
-    r.driveBase.turn(-45)
+    r.DriveForDistance(-20)
+    r.TurnInPlace(90)
+    r.DriveForDistance(100)
+    r.TurnInPlace(-45)
     # do octopus push thing
-    r.driveBase.straight(30)
-    r.driveBase.straight(-30)
-    r.driveBase.turn(90)
-    r.driveBase.straight(100)
+    r.DriveForDistance(30)
+    r.DriveForDistance(-30)
+    r.TurnInPlace(90)
+    r.DriveForDistance(100)
     # do leafy green thing
 
 def run2(r:Robot):
