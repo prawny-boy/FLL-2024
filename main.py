@@ -1,21 +1,47 @@
 from pybricks.pupdevices import Motor, Button
 from pybricks.parameters import Port, Color, Icon
-from pybricks.tools import wait, Matrix, StopWatch
+from pybricks.tools import wait, Matrix, StopWatch, hub_menu
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 
+# Constants
+DRIVEBASE_WHEEL_DIAMETER = 56
+DRIVEBASE_AXLE_TRACK = 105 # confirm this value
+
 # Define the Robot
 class Robot:
-    #DRIVE MOTORS: Left (A) Right (B) Big (E) Small (F)
-    leftDrive = Motor(Port.A)
-    rightDrive = Motor(Port.B)
-    big = Motor(Port.E)
-    small = Motor(Port.F)
-    # fix these values (measurements from the robot itself)
-    # axle track is distance between the wheels
-    driveBase = DriveBase(leftDrive, rightDrive, wheel_diameter=56, axle_track=105)
-    driveBase.use_gyro(True)
-    hub = PrimeHub()
+    def __init__(self):
+        # DRIVE MOTORS: Left (A) Right (B) Big (E) Small (F)
+        self.leftDrive = Motor(Port.A)
+        self.rightDrive = Motor(Port.B)
+        self.big = Motor(Port.E)
+        self.small = Motor(Port.F)
+
+        # Defines the drivebase
+        self.driveBase = DriveBase(self.leftDrive, self.rightDrive, DRIVEBASE_WHEEL_DIAMETER, DRIVEBASE_AXLE_TRACK)
+        self.driveBase.use_gyro(True)
+
+        # Defines the hub
+        self.hub = PrimeHub()
+
+    def DisplayNumber(self, number:int):
+        self.hub.display.off()
+        self.hub.display.number(number)
+
+    def StatusLight(self, color:Color):
+        self.hub.light.off()
+        self.hub.light.on(color)
+    
+    def BatteryDisplay(self):
+        # display battery of hub
+        v = 7900
+        vPct = Rescale(v, 7000, 8000)
+        print(f"Battery %: {vPct}")
+        if vPct < 70:
+            print("Battery is below 70% Please charge!")
+            self.StatusLight(Color.RED)
+        else:
+            self.StatusLight(Color.GREEN)
 
 class Animations:
     running = [
@@ -70,34 +96,26 @@ class Animations:
         ])
     ]
 
-def run1():
-    Robot.driveBase.straight(100)
+def run1(r:Robot):
+    r.driveBase.straight(100)
 
-def run2():
+def run2(r:Robot):
     pass
 
-def run3():
+def run3(r:Robot):
     pass
 
-def run4():
+def run4(r:Robot):
     pass
 
-def run5():
+def run5(r:Robot):
     pass
 
-def run6():
+def run6(r:Robot):
     pass
 
-def run7():
+def run7(r:Robot):
     pass
-
-def DisplayNumber(number:int):
-    Robot.hub.display.off()
-    Robot.hub.display.number(number)
-
-def StatusLight(color:Color):
-    Robot.hub.light.off()
-    Robot.hub.light.on(color)
 
 def Rescale(value, in_min, in_max):
     neg = value / abs(value) # will either be 1 or -1
@@ -109,42 +127,19 @@ def Rescale(value, in_min, in_max):
     if retvalue < 0: retvalue = 0
     return retvalue * neg
 
-current_selection = 0
+def RunMission(r:Robot, selected):
+    # run current selection
+    r.StatusLight(Color.YELLOW)
+    r.hub.display.animate(Animations.running, 30)
+    print(f"Running #{selected}...")
+    start_time = StopWatch.time()
+    eval(f'run{str(selected)}()')
+    print(f"Done running #{selected}. Time: {StopWatch.time() - start_time}")
+    r.StatusLight(Color.GREEN)
 
-StatusLight(Color.GREEN)
-Robot.hub.display.off()
+Robot.BatteryDisplay()
 
-# display battery of hub
-v = 7900
-vPct = Rescale(v, 7000, 8000)
-print(f"Battery %: {vPct}")
-if vPct < 70:
-    print("Battery is below 70% Please charge!")
-
+# run menu
 while True:
-    while True:
-        if Button.LEFT in Robot.hub.buttons.pressed():
-            current_selection = (current_selection - 1) % 7
-            break
-
-        elif Button.RIGHT in Robot.hub.buttons.pressed():
-            current_selection = (current_selection + 1) % 7
-            break
-
-        elif Button.CENTER in Robot.hub.buttons.pressed():
-            # run current selection
-            StatusLight(Color.YELLOW)
-            Robot.hub.display.animate(Animations.running, 30)
-            print(f"Running {current_selection + 1}...")
-            start_time = StopWatch.time()
-            eval(f'run{str(current_selection + 1)}()')
-            print(f"Done running {current_selection + 1}. Time: {StopWatch.time() - start_time}")
-            StatusLight(Color.GREEN)
-            break
-    
-    # wait until there are no buttons pressed
-    while not Robot.hub.buttons.pressed() == []:
-        wait(10)
-    
-    # display current selection
-    DisplayNumber(current_selection + 1)
+    selected = hub_menu("1", "2", "3", "4", "5", "6", "7")
+    RunMission(Robot(), selected)
