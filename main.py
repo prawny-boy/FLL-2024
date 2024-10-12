@@ -52,11 +52,11 @@ while True:
             current_selection = (current_selection - 1) % 7
             break
 
-        if Button.RIGHT in PrimeHub.buttons.pressed():
+        elif Button.RIGHT in PrimeHub.buttons.pressed():
             current_selection = (current_selection + 1) % 7
             break
 
-        if Button.CENTER in PrimeHub.buttons.pressed():
+        elif Button.CENTER in PrimeHub.buttons.pressed():
             # run current selection
             eval(f'run{str(current_selection + 1)}()')
             break
