@@ -103,10 +103,27 @@ def StatusLight(color:Color):
     hub.light.off()
     hub.light.on(color)
 
+def Rescale(value, in_min, in_max):
+    neg = value / abs(value) # will either be 1 or -1
+    value = abs(value)
+    if value < in_min: value = in_min
+    if value > in_max: value = in_max
+    retvalue = (value - in_min) * (100 / (in_max - in_min))
+    if retvalue > 100: retvalue = 100
+    if retvalue < 0: retvalue = 0
+    return retvalue * neg
+
 current_selection = 0
 
 StatusLight(Color.GREEN)
 hub.display.off()
+
+# display battery of hub
+v = 7900
+vPct = Rescale(v, 7000, 8000)
+print(f"Battery %: {vPct}")
+if vPct < 70:
+    print("Battery is below 70% Please charge!")
 
 while True:
     while True:
