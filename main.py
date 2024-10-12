@@ -135,7 +135,7 @@ def RunMission(r:Robot, selected):
     r.hub.display.animate(Animations.running, 30)
     print(f"Running #{selected}...")
     start_time = StopWatch.time()
-    eval(f'run{str(selected)}()')
+    eval(f'run{str(selected)}(r)')
     print(f"Done running #{selected}. Time: {StopWatch.time() - start_time}")
     r.StatusLight(Color.GREEN)
 
