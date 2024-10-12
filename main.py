@@ -25,6 +25,26 @@ class Robot:
 
         # Defines the hub
         self.hub = PrimeHub()
+    
+    def MoveSmallMotorInDegrees(self, degrees:int, speed:int=100):
+        self.small.run_angle(speed, degrees)
+    
+    def MoveBigMotorInDegrees(self, degrees:int, speed:int=100):
+        self.big.run_angle(speed, degrees)
+    
+    def DriveForDistance(self, distance:int):
+        self.driveBase.straight(distance)
+    
+    def DriveForMilliseconds(self, milliseconds:int, speed:int=100):
+        self.driveBase.drive(speed, 0)
+        wait(milliseconds)
+        self.driveBase.stop()
+    
+    def TurnInPlace(self, degrees:int):
+        self.driveBase.turn(degrees)
+    
+    def Curve(self, radius:int, angle:int):
+        self.driveBase.curve(radius, angle)
 
     def DisplayNumber(self, number:int):
         self.hub.display.off()
@@ -98,6 +118,7 @@ class Animations:
         ])
     ]
 
+# run functions
 def run1(r:Robot):
     r.driveBase.turn(-90)
     r.driveBase.straight(100)
@@ -131,14 +152,15 @@ def run6(r:Robot):
 def run7(r:Robot):
     pass
 
-def Rescale(value, in_min, in_max):
+# Utility functions
+def Rescale(value, in_min, in_max, out_min, out_max):
     neg = value / abs(value) # will either be 1 or -1
     value = abs(value)
     if value < in_min: value = in_min
     if value > in_max: value = in_max
-    retvalue = (value - in_min) * (100 / (in_max - in_min))
-    if retvalue > 100: retvalue = 100
-    if retvalue < 0: retvalue = 0
+    retvalue = (value - in_min) * (out_max / (in_max - in_min))
+    if retvalue > out_max: retvalue = out_max
+    if retvalue < out_min: retvalue = out_min
     return retvalue * neg
 
 def RunMission(r:Robot, selected):
@@ -151,9 +173,13 @@ def RunMission(r:Robot, selected):
     print(f"Done running #{selected}. Time: {StopWatch.time() - start_time}")
     r.StatusLight(Color.GREEN)
 
-Robot.BatteryDisplay()
+# create robot
+my_robot = Robot()
+
+# display battery
+my_robot.BatteryDisplay()
 
 # run menu
 while True:
     selected = hub_menu("1", "2", "3", "4", "5", "6", "7")
-    RunMission(Robot(), selected)
+    RunMission(my_robot, selected)
