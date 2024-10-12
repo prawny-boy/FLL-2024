@@ -1,20 +1,20 @@
 from pybricks.pupdevices import Motor, Button
 from pybricks.parameters import Port, Color, Icon
 from pybricks.tools import wait, Matrix, StopWatch
+from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 
-hub = PrimeHub()
-
-def Pause(time:float):
-    wait(time*1000)
-
 # Define the Robot
-class Motors:
+class Robot:
     #DRIVE MOTORS: Left (A) Right (B) Big (E) Small (F)
     leftDrive = Motor(Port.A)
     rightDrive = Motor(Port.B)
     big = Motor(Port.E)
     small = Motor(Port.F)
+    # fix these values (measurements from the robot itself)
+    # axle track is distance between the wheels
+    driveBase = DriveBase(leftDrive, rightDrive, wheel_diameter=56, axle_track=105)
+    hub = PrimeHub()
 
 class Animations:
     running = [
@@ -69,13 +69,8 @@ class Animations:
         ])
     ]
 
-def Forward(distance:float):
-    Motors.leftDrive.run_angle(speed=distance, wait=False)
-    Motors.rightDrive.run_angle(speed=distance)
-    Pause(1)
-
 def run1():
-    Forward()
+    Robot.driveBase.straight(100)
 
 def run2():
     pass
@@ -96,12 +91,12 @@ def run7():
     pass
 
 def DisplayNumber(number:int):
-    hub.display.off()
-    hub.display.number(number)
+    Robot.hub.display.off()
+    Robot.hub.display.number(number)
 
 def StatusLight(color:Color):
-    hub.light.off()
-    hub.light.on(color)
+    Robot.hub.light.off()
+    Robot.hub.light.on(color)
 
 def Rescale(value, in_min, in_max):
     neg = value / abs(value) # will either be 1 or -1
@@ -116,7 +111,7 @@ def Rescale(value, in_min, in_max):
 current_selection = 0
 
 StatusLight(Color.GREEN)
-hub.display.off()
+Robot.hub.display.off()
 
 # display battery of hub
 v = 7900
@@ -127,18 +122,18 @@ if vPct < 70:
 
 while True:
     while True:
-        if Button.LEFT in hub.buttons.pressed():
+        if Button.LEFT in Robot.hub.buttons.pressed():
             current_selection = (current_selection - 1) % 7
             break
 
-        elif Button.RIGHT in hub.buttons.pressed():
+        elif Button.RIGHT in Robot.hub.buttons.pressed():
             current_selection = (current_selection + 1) % 7
             break
 
-        elif Button.CENTER in hub.buttons.pressed():
+        elif Button.CENTER in Robot.hub.buttons.pressed():
             # run current selection
             StatusLight(Color.YELLOW)
-            hub.display.animate(Animations.running, 30)
+            Robot.hub.display.animate(Animations.running, 30)
             print(f"Running {current_selection + 1}...")
             start_time = StopWatch.time()
             eval(f'run{str(current_selection + 1)}()')
@@ -147,8 +142,8 @@ while True:
             break
     
     # wait until there are no buttons pressed
-    while not hub.buttons.pressed() == []:
-        Pause(0.01)
+    while not Robot.hub.buttons.pressed() == []:
+        wait(10)
     
     # display current selection
     DisplayNumber(current_selection + 1)
