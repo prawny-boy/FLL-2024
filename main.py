@@ -14,6 +14,7 @@ class Robot:
     # fix these values (measurements from the robot itself)
     # axle track is distance between the wheels
     driveBase = DriveBase(leftDrive, rightDrive, wheel_diameter=56, axle_track=105)
+    driveBase.use_gyro(True)
     hub = PrimeHub()
 
 class Animations:
@@ -147,8 +148,3 @@ while True:
     
     # display current selection
     DisplayNumber(current_selection + 1)
-    
-    
-    
-        
-    
