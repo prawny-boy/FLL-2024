@@ -7,6 +7,8 @@ from pybricks.hubs import PrimeHub
 # Constants
 DRIVEBASE_WHEEL_DIAMETER = 56
 DRIVEBASE_AXLE_TRACK = 105 # confirm this value
+LOW_VOLTAGE = 7000
+HIGH_VOLTAGE = 8000
 
 # Define the Robot
 class Robot:
@@ -35,7 +37,7 @@ class Robot:
     def BatteryDisplay(self):
         # display battery of hub
         v = 7900
-        vPct = Rescale(v, 7000, 8000)
+        vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE)
         print(f"Battery %: {vPct}")
         if vPct < 70:
             print("Battery is below 70% Please charge!")
