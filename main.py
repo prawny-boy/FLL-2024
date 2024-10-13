@@ -65,6 +65,12 @@ class Robot:
             self.StatusLight(Color.RED)
         else:
             self.StatusLight(Color.GREEN)
+    
+    def CleanMotors(self):
+        self.leftDrive.run_angle(200, 1000, wait=False)
+        self.rightDrive.run_angle(200, 1000, wait=False)
+        self.big.run_angle(200, 1000, wait=False)
+        self.small.run_angle(200, 1000)
 
 class Animations:
     running = [
@@ -182,5 +188,8 @@ my_robot.BatteryDisplay()
 
 # run menu
 while True:
-    selected = hub_menu("1", "2", "3", "4", "5", "6", "7")
-    RunMission(my_robot, selected)
+    selected = hub_menu("1", "2", "3", "4", "5", "6", "7", "C")
+    if not selected == "C":
+        RunMission(my_robot, selected)
+    else:
+        my_robot.CleanMotors()
