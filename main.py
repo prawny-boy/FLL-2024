@@ -28,24 +28,24 @@ class Robot:
         self.hub = PrimeHub()
     
     # add wait parameter to plug in to functions for these below
-    def MoveSmallMotorInDegrees(self, degrees:int, speed:int=100, wait:bool = True):
+    def MoveSmallMotorInDegrees(self, degrees:float, speed:float=100, wait:bool = True):
         self.small.run_angle(speed, degrees, wait=wait)
     
-    def MoveBigMotorInDegrees(self, degrees:int, speed:int=100, wait:bool = True):
+    def MoveBigMotorInDegrees(self, degrees:float, speed:float=100, wait:bool = True):
         self.big.run_angle(speed, degrees, wait=wait)
     
-    def DriveForDistance(self, distance:int, wait:bool = True):
+    def DriveForDistance(self, distance:float, wait:bool = True):
         self.driveBase.straight(distance, wait=wait)
     
-    def DriveForMilliseconds(self, milliseconds:int, speed:int=100):
+    def DriveForMilliseconds(self, milliseconds:float, speed:float=100):
         self.driveBase.drive(speed, 0)
         wait(milliseconds)
         self.driveBase.stop()
     
-    def TurnInPlace(self, degrees:int, wait:bool=True):
+    def TurnInPlace(self, degrees:float, wait:bool=True):
         self.driveBase.turn(degrees, wait=wait)
     
-    def Curve(self, radius:int, angle:int, wait:bool=True):
+    def Curve(self, radius:float, angle:float, wait:bool=True):
         self.driveBase.curve(radius, angle, wait=wait)
 
     def DisplayNumber(self, number:int):
