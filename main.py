@@ -9,6 +9,7 @@ DRIVEBASE_WHEEL_DIAMETER = 56
 DRIVEBASE_AXLE_TRACK = 105 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
+MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "C"]
 
 # Define the Robot
 class Robot:
@@ -126,10 +127,10 @@ class Animations:
     ]
 
 # run functions
-def run1(r:Robot):
+def Run1(r:Robot):
     r.TurnInPlace(-90)
     r.DriveForDistance(100)
-    # do 4 sqaure crab thing
+    # do 4 square crab thing
     r.DriveForDistance(-20)
     r.TurnInPlace(90)
     r.DriveForDistance(100)
@@ -141,22 +142,22 @@ def run1(r:Robot):
     r.DriveForDistance(100)
     # do leafy green thing
 
-def run2(r:Robot):
+def Run2(r:Robot):
     pass
 
-def run3(r:Robot):
+def Run3(r:Robot):
     pass
 
-def run4(r:Robot):
+def Run4(r:Robot):
     pass
 
-def run5(r:Robot):
+def Run5(r:Robot):
     pass
 
-def run6(r:Robot):
+def Run6(r:Robot):
     pass
 
-def run7(r:Robot):
+def Run7(r:Robot):
     pass
 
 # Utility functions
@@ -176,9 +177,10 @@ def RunMission(r:Robot, selected):
     r.hub.display.animate(Animations.running, 30)
     print(f"Running #{selected}...")
     start_time = StopWatch.time()
-    eval(f'run{str(selected)}(r)')
+    eval(f'Run{str(selected)}(r)')
     print(f"Done running #{selected}. Time: {StopWatch.time() - start_time}")
     r.StatusLight(Color.GREEN)
+    return selected
 
 # create robot
 my_robot = Robot()
@@ -187,9 +189,14 @@ my_robot = Robot()
 my_robot.BatteryDisplay()
 
 # run menu
+last_run = "C"
 while True:
-    selected = hub_menu("1", "2", "3", "4", "5", "6", "7", "C")
+    # Test this later
+    current_menu = []
+    for i in range(len(MENU_OPTIONS)):
+        current_menu.append(MENU_OPTIONS[(i+MENU_OPTIONS.index(last_run)+1) % len(MENU_OPTIONS)])
+    selected = hub_menu(current_menu)
     if not selected == "C":
-        RunMission(my_robot, selected)
+        last_run = RunMission(my_robot, selected)
     else:
         my_robot.CleanMotors()
