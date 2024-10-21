@@ -1,5 +1,5 @@
 from pybricks.pupdevices import Motor
-from pybricks.parameters import Port, Color, Axis, Direction
+from pybricks.parameters import Port, Color, Axis, Direction, Button
 from pybricks.tools import wait, Matrix, StopWatch, hub_menu
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
@@ -18,7 +18,7 @@ ROBOT_TURN_ACCELERATION = 500
 # Define the Robot
 class Robot:
     def __init__(self):
-        # DRIVE MOTORS: Left (A) Right (B) Big (E) Small (F)
+        # DRIVE MOTORS: Left (A ) Right (B) Big (E) Small (F)
         self.leftDrive = Motor(Port.A, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B)
         self.big = Motor(Port.E)
@@ -36,6 +36,7 @@ class Robot:
 
         # Defines the hub
         self.hub = PrimeHub(front_side=-Axis.Y)
+        self.hub.system.set_stop_button(Button.BLUETOOTH)
     
     # add wait parameter to plug in to functions for these below
     def MoveSmallMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
