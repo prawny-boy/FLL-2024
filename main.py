@@ -185,22 +185,7 @@ def RunMission(r:Robot, selected):
     r.hub.display.animate(Animations.running, 30)
     print(f"Running #{selected}...")
     start_time = stopwatch.time()
-    if selected == "1":
-        Run1(r)
-    elif selected == "2":
-        Run2(r)
-    elif selected == "3":
-        Run3(r)
-    elif selected == "4":
-        Run4(r)
-    elif selected == "5":
-        Run5(r)
-    elif selected == "6":
-        Run6(r)
-    elif selected == "7":
-        Run7(r)
-    elif selected == "C":
-        r.CleanMotors()
+    exec(f"Run{selected}({r})")
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
     r.StatusLight(Color.GREEN)
     return selected
