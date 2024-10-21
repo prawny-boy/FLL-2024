@@ -15,6 +15,9 @@ ROBOT_ACCELERATION = 500
 ROBOT_TURN_RATE = 500
 ROBOT_TURN_ACCELERATION = 500
 
+# Variables
+battery_status_light = Color.GREEN
+
 # Define the Robot
 class Robot:
     def __init__(self):
@@ -69,14 +72,16 @@ class Robot:
     
     def BatteryDisplay(self):
         # display battery of hub
-        v = 7900
+        v = self.hub.battery.voltage()
+        print(v)
         vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)
         print(f"Battery %: {vPct}")
         if vPct < 70:
             print("Battery is below 70% Please charge!")
-            self.StatusLight(Color.RED)
+            battery_status_light = Color.RED
+            self.StatusLight(battery_status_light)
         else:
-            self.StatusLight(Color.GREEN)
+            self.StatusLight(battery_status_light)
     
     def CleanMotors(self):
         self.leftDrive.run_angle(999, 1000, wait=False)
