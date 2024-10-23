@@ -52,12 +52,15 @@ class Robot:
         self.big.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
+    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+        self.small.run_until_stalled(speed, duty_limit=duty_limit)
+    
     def DriveForDistance(self, distance:float, wait:bool = True):
         self.driveBase.use_gyro(True)
         self.driveBase.straight(distance, wait=wait)
         self.driveBase.use_gyro(False)
     
-    def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_TURN_RATE):
+    def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_SPEED):
         self.driveBase.drive(speed, 0)
         wait(milliseconds)
         self.driveBase.stop()
@@ -152,15 +155,18 @@ class Animations:
     ]
 
 class Missions:
-    def Boat(r:Robot):
-        # start in a certain position
+    def Boat(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
+        # Reset the angle
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-15, 500)
+        r.DriveForDistance(70)
         r.MoveSmallMotorInDegrees(-180, 500)
     
     def Seaweed(r:Robot):
         pass
 
-    def Octopus(r:Robot):
-        pass
+    def Octopus(r:Robot): # start with the robot facing the pusher in the middle
+        r.DriveForMilliseconds(3000)
 
     def Boxes(r:Robot):
         pass
@@ -170,12 +176,17 @@ class Missions:
     
     def ResearchShip(r:Robot):
         pass
+
 # run functions
 def Run1(r:Robot):
+    # Start location
     r.DriveForDistance(350)
     r.TurnInPlace(45)
-    r.DriveForDistance(70)
+    # Boat mission
     Missions.Boat(r)
+    
+    # Seaweed mission
+    Missions.Seaweed(r)
 
 def Run2(r:Robot):
     r.TurnInPlace(360)
