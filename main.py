@@ -29,7 +29,7 @@ class Robot:
 
         # Defines the drivebase
         self.driveBase = DriveBase(self.leftDrive, self.rightDrive, DRIVEBASE_WHEEL_DIAMETER, DRIVEBASE_AXLE_TRACK)
-        self.driveBase.use_gyro(True)
+        self.driveBase.use_gyro(False)
         self.driveBase.settings(
             straight_speed=ROBOT_SPEED, 
             straight_acceleration=ROBOT_ACCELERATION, 
@@ -43,13 +43,19 @@ class Robot:
     
     # add wait parameter to plug in to functions for these below
     def MoveSmallMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        self.driveBase.use_gyro(True)
         self.small.run_angle(speed, degrees, wait=wait)
+        self.driveBase.use_gyro(False)
     
     def MoveBigMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        self.driveBase.use_gyro(True)
         self.big.run_angle(speed, degrees, wait=wait)
+        self.driveBase.use_gyro(False)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
+        self.driveBase.use_gyro(True)
         self.driveBase.straight(distance, wait=wait)
+        self.driveBase.use_gyro(False)
     
     def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_TURN_RATE):
         self.driveBase.drive(speed, 0)
@@ -57,10 +63,14 @@ class Robot:
         self.driveBase.stop()
     
     def TurnInPlace(self, degrees:float, wait:bool=True):
+        self.driveBase.use_gyro(True)
         self.driveBase.turn(degrees, wait=wait)
+        self.driveBase.use_gyro(False)
     
     def Curve(self, radius:float, angle:float, wait:bool=True):
+        self.driveBase.use_gyro(True)
         self.driveBase.curve(radius, angle, wait=wait)
+        self.driveBase.use_gyro(False)
 
     def DisplayNumber(self, number:int):
         self.hub.display.off()
@@ -73,11 +83,10 @@ class Robot:
     def BatteryDisplay(self):
         # display battery of hub
         v = self.hub.battery.voltage()
-        print(v)
         vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)
-        print(f"Battery %: {vPct}")
+        print(f"Battery %: {vPct}, Voltage: {v}")
         if vPct < 70:
-            print("Battery is below 70% Please charge!")
+            print(f"Battery is below 70% Please charge!")
             battery_status_light = Color.RED
             self.StatusLight(battery_status_light)
         else:
@@ -185,7 +194,20 @@ def RunMission(r:Robot, selected):
     r.hub.display.animate(Animations.running, 30)
     print(f"Running #{selected}...")
     start_time = stopwatch.time()
-    exec(f"Run{selected}({r})")
+    if selected == "1":
+        Run1(r)
+    elif selected == "2":
+        Run2(r)
+    elif selected == "3":
+        Run3(r)
+    elif selected == "4":
+        Run4(r)
+    elif selected == "5":
+        Run5(r)
+    elif selected == "6":
+        Run6(r)
+    elif selected == "7":
+        Run7(r)
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
     r.StatusLight(Color.GREEN)
     return selected
