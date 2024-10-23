@@ -179,8 +179,23 @@ class Missions:
 
     def Boxes(r:Robot):
         pass
+
+    def CoralNursery(r:Robot):
+        pass
+
+    def Shark(r:Robot):
+        pass
+
+    def CoralReef(r:Robot):
+        pass
     
     def ResearchShip(r:Robot):
+        pass
+
+    def AnglerFish(r:Robot):
+        pass
+
+    def Submarine(r:Robot):
         pass
 
 # run functions
@@ -208,19 +223,48 @@ def Run2(r:Robot):
     # Home location
 
 def Run3(r:Robot):
-    pass
+    # Home location
+
+    # Boxes mission
+    Missions.Boxes(r)
+
+    # Away Location
 
 def Run4(r:Robot):
-    pass
+    # Away Location
+
+    # Shark mission
+    Missions.Shark(r)
+
+    # Coral Nursery mission
+    Missions.CoralNursery(r)
+
+    # Away Location
 
 def Run5(r:Robot):
-    pass
+    # Away Location
+
+    # Coral Reef Mission
+    Missions.CoralReef(r)
+
+    # Away Location
 
 def Run6(r:Robot):
-    pass
+    # Away Location
+
+    # Research Ship Mission
+    Missions.ResearchShip(r)
+
+    # Home Location
 
 def Run7(r:Robot):
-    pass
+    # Home Location
+
+    # Angler Fish Mission
+    Missions.AnglerFish(r)
+
+    # Submarine Mission
+    Missions.Submarine(r)
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
@@ -241,6 +285,7 @@ def RunMission(r:Robot, selected):
     start_time = stopwatch.time()
     if selected == "1":
         Run1(r)
+        all_start_time = stopwatch.time()
     elif selected == "2":
         Run2(r)
     elif selected == "3":
@@ -254,7 +299,9 @@ def RunMission(r:Robot, selected):
     elif selected == "7":
         Run7(r)
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
-    r.StatusLight(Color.GREEN)
+    if selected == "7":
+        print(f"Total time: {round((stopwatch.time() - all_start_time)/ 1000, 1)} seconds.")
+    r.StatusLight(battery_status_light)
     return selected
 
 # create robot
