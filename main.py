@@ -190,6 +190,7 @@ class Missions:
         pass
     
     def ResearchShip(r:Robot):
+        # add putting the things into the research ship here
         pass
 
     def AnglerFish(r:Robot):
