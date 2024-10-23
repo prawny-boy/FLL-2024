@@ -151,9 +151,31 @@ class Animations:
         ])
     ]
 
+class Missions:
+    def Boat(r:Robot):
+        # start in a certain position
+        r.MoveSmallMotorInDegrees(-180, 500)
+    
+    def Seaweed(r:Robot):
+        pass
+
+    def Octopus(r:Robot):
+        pass
+
+    def Boxes(r:Robot):
+        pass
+
+    def Whales(r:Robot):
+        pass
+    
+    def ResearchShip(r:Robot):
+        pass
 # run functions
 def Run1(r:Robot):
-    r.DriveForDistance(1000)
+    r.DriveForDistance(350)
+    r.TurnInPlace(45)
+    r.DriveForDistance(70)
+    Missions.Boat(r)
 
 def Run2(r:Robot):
     r.TurnInPlace(360)
