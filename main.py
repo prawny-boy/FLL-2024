@@ -159,6 +159,8 @@ class Animations:
     ]
 
 class Missions:
+    # Sorted in order of what we are doing
+
     def Boat(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle
         r.MoveSmallMotorUntilStalled(500)
@@ -169,13 +171,13 @@ class Missions:
     def Seaweed(r:Robot):
         pass
 
+    def Whales(r:Robot):
+        pass
+
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
         r.DriveForMilliseconds(3000)
 
     def Boxes(r:Robot):
-        pass
-
-    def Whales(r:Robot):
         pass
     
     def ResearchShip(r:Robot):
@@ -183,7 +185,7 @@ class Missions:
 
 # run functions
 def Run1(r:Robot):
-    # Start location
+    # Home location
     r.DriveForDistance(350)
     r.TurnInPlace(45)
     # Boat mission
@@ -191,13 +193,19 @@ def Run1(r:Robot):
     
     # Seaweed mission
     Missions.Seaweed(r)
+    
+    # Home location
 
 def Run2(r:Robot):
-    r.TurnInPlace(360)
-    r.MoveSmallMotorInDegrees(360)
-    r.MoveBigMotorInDegrees(360)
-    r.DriveForMilliseconds(1000)
-    r.Curve(100, 180)
+    # Home location
+
+    # Whales mission
+    Missions.Whales(r)
+
+    # Octopus mission
+    Missions.Octopus(r)
+
+    # Home location
 
 def Run3(r:Robot):
     pass
