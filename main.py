@@ -89,8 +89,12 @@ class Robot:
         vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)
         print(f"Battery %: {vPct}, Voltage: {v}")
         if vPct < 70:
-            print(f"Battery is below 70% Please charge!")
-            battery_status_light = Color.RED
+            if vPct < 10:
+                print("EMERGENCY: BATTERY LOW!")
+                battery_status_light = Color.RED
+            else:
+                print("Battery is below 70% Please charge!")
+                battery_status_light = Color.YELLOW
             self.StatusLight(battery_status_light)
         else:
             self.StatusLight(battery_status_light)
