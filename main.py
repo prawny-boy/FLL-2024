@@ -299,9 +299,13 @@ def RunMission(r:Robot, selected):
         Run6(r)
     elif selected == "7":
         Run7(r)
+        print("All missions complete.\n---------------------------------------\nRESULTS:")
+        alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
+        print(f"Total time: {alltotaltime} seconds. This is {round(alltotaltime/150*100, 1)}% of the time")
+        if alltotaltime > 150:
+            print(f"Time exceeded by {150-alltotaltime} seconds.")
+        print("---------------------------------------")
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
-    if selected == "7":
-        print(f"Total time: {round((stopwatch.time() - all_start_time)/ 1000, 1)} seconds.")
     r.StatusLight(battery_status_light)
     return selected
 
