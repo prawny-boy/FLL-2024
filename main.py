@@ -164,7 +164,7 @@ class Animations:
 class Missions:
     # Sorted in order of what we are doing
 
-    def Boat(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
+    def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle
         r.MoveSmallMotorUntilStalled(500)
         r.MoveSmallMotorInDegrees(-60, 500)
@@ -187,7 +187,7 @@ class Missions:
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
         r.DriveForDistance(-300, 800)
 
-    def Boxes(r:Robot):
+    def CrabBoxes(r:Robot):
         pass
 
     def CoralNursery(r:Robot):
@@ -215,7 +215,7 @@ def Run1(r:Robot):
     r.DriveForDistance(350)
     r.TurnInPlace(45)
     # Boat mission
-    Missions.Boat(r)
+    Missions.ShippingLanes(r)
     r.DriveForDistance(-50)
     r.MoveSmallMotorInDegrees(90, 500)
     r.TurnInPlace(-45)
