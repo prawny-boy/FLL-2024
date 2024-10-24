@@ -54,6 +54,9 @@ class Robot:
     
     def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
         self.small.run_until_stalled(speed, duty_limit=duty_limit)
+
+    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+        self.big.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
         self.driveBase.use_gyro(True)
@@ -89,7 +92,7 @@ class Robot:
         vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)
         print(f"Battery %: {vPct}, Voltage: {v}")
         if vPct < 70:
-            if vPct < 10:
+            if vPct < 40:
                 print("EMERGENCY: BATTERY LOW!")
                 battery_status_light = Color.RED
             else:
@@ -164,18 +167,25 @@ class Missions:
     def Boat(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-15, 500)
-        r.DriveForDistance(70)
+        r.MoveSmallMotorInDegrees(-60, 500)
+        r.DriveForDistance(80)
         r.MoveSmallMotorInDegrees(-180, 500)
     
     def Seaweed(r:Robot):
-        pass
+        r.MoveBigMotorInDegrees(45)
 
     def Whales(r:Robot):
-        pass
+        r.MoveSmallMotorInDegrees(-90, 500)
+        r.DriveForDistance(-100)
+        r.TurnInPlace(-90)
+        r.DriveForDistance(100)
+        r.TurnInPlace(90)
+        r.MoveSmallMotorInDegrees(180, 500)
+        r.DriveForDistance(100)
+        r.MoveSmallMotorInDegrees(90, 500)
 
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
-        r.DriveForMilliseconds(3000)
+        r.DriveForDistance(-300, 800)
 
     def Boxes(r:Robot):
         pass
@@ -206,20 +216,34 @@ def Run1(r:Robot):
     r.TurnInPlace(45)
     # Boat mission
     Missions.Boat(r)
-    
+    r.DriveForDistance(-50)
+    r.MoveSmallMotorInDegrees(90, 500)
+    r.TurnInPlace(-45)
+    r.DriveForDistance(300)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(-80)
     # Seaweed mission
     Missions.Seaweed(r)
-    
+    r.DriveForDistance(50)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(700)
     # Home location
 
 def Run2(r:Robot):
     # Home location
-
+    r.DriveForDistance(1000)
+    r.TurnInPlace(180)
     # Whales mission
     Missions.Whales(r)
-
+    r.DriveForDistance(50)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(100)
+    r.TurnInPlace(90)
+    r.DriveForDistance(200)
+    r.TurnInPlace(-45)
     # Octopus mission
     Missions.Octopus(r)
+    r.DriveForDistance(300)
 
     # Home location
 
@@ -300,11 +324,14 @@ def RunMission(r:Robot, selected):
     elif selected == "7":
         Run7(r)
         print("All missions complete.\n---------------------------------------\nRESULTS:")
-        alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
-        print(f"Total time: {alltotaltime} seconds. This is {round(alltotaltime/150*100, 1)}% of the time")
-        if alltotaltime > 150:
-            print(f"Time exceeded by {150-alltotaltime} seconds.")
-        print("---------------------------------------")
+        try:
+            alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
+            print(f"Total time: {alltotaltime} seconds. This is {round(alltotaltime/150*100, 1)}% of the time")
+            if alltotaltime > 150:
+                print(f"Time exceeded by {150-alltotaltime} seconds.")
+            print("---------------------------------------")
+        except UnboundLocalError:
+            print("You didn't run everything.")
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
     r.StatusLight(battery_status_light)
     return selected
