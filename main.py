@@ -9,11 +9,12 @@ DRIVEBASE_WHEEL_DIAMETER = 56
 DRIVEBASE_AXLE_TRACK = 105 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
-MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "C"]
+MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", '8', "C"]
 ROBOT_SPEED = 500
 ROBOT_ACCELERATION = 500
 ROBOT_TURN_RATE = 500
 ROBOT_TURN_ACCELERATION = 500
+ROBOT_MAX_TORQUE = 1000
 
 # Variables
 battery_status_light = Color.GREEN
@@ -36,6 +37,8 @@ class Robot:
             turn_rate=ROBOT_TURN_RATE, 
             turn_acceleration=ROBOT_TURN_ACCELERATION
         )
+        self.leftDrive.control.limits(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_MAX_TORQUE)
+        self.rightDriveDrive.control.limits(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_MAX_TORQUE)
 
         # Defines the hub
         self.hub = PrimeHub(front_side=-Axis.Y)
@@ -100,7 +103,7 @@ class Robot:
                 battery_status_light = Color.YELLOW
             self.StatusLight(battery_status_light)
         else:
-            self.StatusLight(battery_status_light)
+            self.StatusLight(Color.GREEN)
     
     def CleanMotors(self):
         self.leftDrive.run_angle(999, 1000, wait=False)
@@ -167,7 +170,7 @@ class Missions:
     def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-60, 500)
+        r.MoveSmallMotorInDegrees(-70, 500)
         r.DriveForDistance(80)
         r.MoveSmallMotorInDegrees(-180, 500)
     
@@ -175,20 +178,19 @@ class Missions:
         r.MoveBigMotorInDegrees(45)
 
     def Whales(r:Robot):
-        r.MoveSmallMotorInDegrees(-90, 500)
-        r.DriveForDistance(-100)
-        r.TurnInPlace(-90)
-        r.DriveForDistance(100)
-        r.TurnInPlace(90)
-        r.MoveSmallMotorInDegrees(180, 500)
-        r.DriveForDistance(100)
-        r.MoveSmallMotorInDegrees(90, 500)
+        #first whale
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-65, 500)
+        r.DriveForDistance(-150)
+        #second whale not finished
 
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
-        r.DriveForDistance(-300, 800)
+        r.DriveForDistance(-500)
+        wait(100)
+        r.DriveForDistance(500)
 
     def CrabBoxes(r:Robot):
-        pass
+        r.DriveForMilliseconds(5000000, 1000)
 
     def CoralNursery(r:Robot):
         pass
@@ -213,14 +215,14 @@ class Missions:
 def Run1(r:Robot):
     # Home location
     r.DriveForDistance(350)
-    r.TurnInPlace(45)
+    r.TurnInPlace(43)
     # Boat mission
     Missions.ShippingLanes(r)
     r.DriveForDistance(-50)
     r.MoveSmallMotorInDegrees(90, 500)
     r.TurnInPlace(-45)
     r.DriveForDistance(300)
-    r.TurnInPlace(-90)
+    r.TurnInPlace(-95)
     r.DriveForDistance(-80)
     # Seaweed mission
     Missions.Seaweed(r)
@@ -231,31 +233,29 @@ def Run1(r:Robot):
 
 def Run2(r:Robot):
     # Home location
+    r.TurnInPlace(-45)
+    r.DriveForDistance(150) 
+    r.TurnInPlace(45)
     r.DriveForDistance(1000)
-    r.TurnInPlace(180)
     # Whales mission
     Missions.Whales(r)
-    r.DriveForDistance(50)
-    r.TurnInPlace(-90)
-    r.DriveForDistance(100)
-    r.TurnInPlace(90)
-    r.DriveForDistance(200)
-    r.TurnInPlace(-45)
-    # Octopus mission
-    Missions.Octopus(r)
-    r.DriveForDistance(300)
-
+    r.TurnInPlace(180)
+    r.DriveForDistance(700)
+    r.TurnInPlace(-135)
     # Home location
-
+    
 def Run3(r:Robot):
+    Missions.Octopus(r)
+
+def Run4(r:Robot):
     # Home location
 
     # Boxes mission
-    Missions.Boxes(r)
+    Missions.CrabBoxes(r)
 
     # Away Location
 
-def Run4(r:Robot):
+def Run5(r:Robot):
     # Away Location
 
     # Shark mission
@@ -266,7 +266,7 @@ def Run4(r:Robot):
 
     # Away Location
 
-def Run5(r:Robot):
+def Run6(r:Robot):
     # Away Location
 
     # Coral Reef Mission
@@ -274,7 +274,7 @@ def Run5(r:Robot):
 
     # Away Location
 
-def Run6(r:Robot):
+def Run7(r:Robot):
     # Away Location
 
     # Research Ship Mission
@@ -282,7 +282,7 @@ def Run6(r:Robot):
 
     # Home Location
 
-def Run7(r:Robot):
+def Run8(r:Robot):
     # Home Location
 
     # Angler Fish Mission
@@ -323,6 +323,8 @@ def RunMission(r:Robot, selected):
         Run6(r)
     elif selected == "7":
         Run7(r)
+    elif selected == '8':
+        Run8(r)
         print("All missions complete.\n---------------------------------------\nRESULTS:")
         try:
             alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
