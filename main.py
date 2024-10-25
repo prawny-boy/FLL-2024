@@ -188,13 +188,27 @@ class Missions:
         r.DriveForDistance(-300, 800)
 
     def Boxes(r:Robot):
-        pass
+        r.DriveForDistance(100)
+        r.TurnInPlace(180)
+        r.TurnInPlace(-90)
+        # align angle
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-60)
+        # do the mission
+        r.MoveSmallMotorInDegrees(180)
+        r.TurnInPlace(-90)
+        r.DriveForDistance(50)
+        r.TurnInPlace(90)
+        r.DriveForDistance(300)
 
     def CoralNursery(r:Robot):
         pass
 
     def Shark(r:Robot):
-        pass
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-90)
+        r.DriveForDistance(100)
+        r.MoveSmallMotorInDegrees(90)
 
     def CoralReef(r:Robot):
         pass
@@ -244,15 +258,18 @@ def Run2(r:Robot):
     # Octopus mission
     Missions.Octopus(r)
     r.DriveForDistance(300)
-
     # Home location
 
 def Run3(r:Robot):
     # Home location
-
+    r.DriveForDistance(200)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(200)
     # Boxes mission
     Missions.Boxes(r)
-
+    r.TurnInPlace(90)
+    r.Curve(100, 120)
+    r.DriveForDistance(100)
     # Away Location
 
 def Run4(r:Robot):
