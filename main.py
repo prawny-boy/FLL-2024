@@ -38,7 +38,7 @@ class Robot:
             turn_acceleration=ROBOT_TURN_ACCELERATION
         )
         self.leftDrive.control.limits(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_MAX_TORQUE)
-        self.rightDriveDrive.control.limits(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_MAX_TORQUE)
+        self.rightDrive.control.limits(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_MAX_TORQUE)
 
         # Defines the hub
         self.hub = PrimeHub(front_side=-Axis.Y)
@@ -190,7 +190,22 @@ class Missions:
         r.DriveForDistance(500)
 
     def CrabBoxes(r:Robot):
-        r.DriveForMilliseconds(5000000, 1000)
+        r.DriveForDistance(300, wait=False)
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-65)
+        r.DriveForDistance(300)
+        r.TurnInPlace(90)
+        r.DriveForDistance(380)
+        r.TurnInPlace(-135)
+        r.DriveForDistance(230)
+        r.MoveSmallMotorUntilStalled(-500, 200)
+        r.DriveForDistance(-150, 700)
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-65)
+        r.TurnInPlace(90)
+        r.TurnInPlace(45)
+        r.DriveForDistance(700)
+        
 
     def CoralNursery(r:Robot):
         pass
@@ -223,7 +238,7 @@ def Run1(r:Robot):
     r.TurnInPlace(-45)
     r.DriveForDistance(300)
     r.TurnInPlace(-95)
-    r.DriveForDistance(-80)
+    r.DriveForDistance(-65)
     # Seaweed mission
     Missions.Seaweed(r)
     r.DriveForDistance(50)
@@ -249,10 +264,11 @@ def Run3(r:Robot):
 
 def Run4(r:Robot):
     # Home location
-
+    r.DriveForDistance(400)
+    r.TurnInPlace(-135)
     # Boxes mission
     Missions.CrabBoxes(r)
-
+    r.Curve(200, 90)
     # Away Location
 
 def Run5(r:Robot):
