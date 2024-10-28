@@ -177,12 +177,17 @@ class Missions:
     def Seaweed(r:Robot):
         r.MoveBigMotorInDegrees(45)
 
-    def Whales(r:Robot):
-        #first whale
-        r.MoveSmallMotorUntilStalled(500)
-        r.DriveForDistance(-150)
-        r.MoveSmallMotorInDegrees(-90)
-        #second whale not finished
+    def Whales(r:Robot, whaleNumber:int):
+        if whaleNumber == 1:
+            # first whale
+            r.MoveSmallMotorUntilStalled(500)
+            r.DriveForDistance(-150)
+            r.MoveSmallMotorInDegrees(-90)
+        elif whaleNumber == 2:
+            # second whale not finished
+            pass
+        else:
+            print("Error: whaleNumber must be 1 or 2 [Missions.Whales]") 
 
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
         r.DriveForDistance(-500)
@@ -267,7 +272,7 @@ def Run2(r:Robot):
     r.DriveForDistance(970)
     r.DriveForDistance(-50)
     # Whales mission
-    Missions.Whales(r)
+    Missions.Whales(r, 1)
     r.DriveForDistance(-700)
     r.TurnInPlace(-90)
     r.DriveForDistance(-200)
@@ -327,6 +332,9 @@ def Run8(r:Robot):
 
     # Submarine Mission
     Missions.Submarine(r)
+
+    # Second Whale Mission
+    Missions.Whales(r, 2)
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
