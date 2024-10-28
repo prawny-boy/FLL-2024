@@ -209,26 +209,13 @@ class Missions:
 
     def CoralNursery(r:Robot):
         r.TurnInPlace(-55)
-        print('nursery turn')
         r.MoveSmallMotorInDegrees(-65)
-        print('nursery small')
         r.TurnInPlace(45)
-        print('nursery turn')
         r.DriveForDistance(30)
-        print('nursery drive')
         r.MoveBigMotorInDegrees(100)
-        print('nursery big')
-        r.DriveForDistance(180)
-        print('nursery drive')
-        r.MoveSmallMotorUntilStalled(500)
-        print('nursery small')
-        r.DriveForDistance(-1000)
 
     def Shark(r:Robot):
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-90)
-        r.DriveForDistance(100)
-        r.MoveSmallMotorInDegrees(90)
 
     def CoralReef(r:Robot):
         pass
@@ -298,24 +285,18 @@ def Run4(r:Robot):
 def Run5(r:Robot):
     # Away Location
     r.TurnInPlace(45)
-    print('turn')
     r.DriveForDistance(230)
-    print('drive')
     r.TurnInPlace(-45)
-    print('turn')
-    # Adjust front AND BACK arm
     r.MoveSmallMotorUntilStalled(-500, 30)
-    print('small')
     r.MoveBigMotorUntilStalled(-500)
-    print('big')
-    # drive to coral nursery
-    r.MoveSmallMotorInDegrees(145)
-    print('small')
+    r.MoveSmallMotorInDegrees(145, wait=False)
     r.DriveForDistance(375)
-    print('drive')
     # Coral Nursery Mission
     Missions.CoralNursery(r)
-
+    r.DriveForDistance(180)
+    # Shark Mission
+    Missions.Shark(r)
+    r.DriveForDistance(-1000)
     # Away Location
 
 def Run6(r:Robot):
