@@ -170,8 +170,8 @@ class Missions:
     def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-70, 500)
-        r.DriveForDistance(80)
+        r.MoveSmallMotorInDegrees(-75, 500)
+        r.DriveForDistance(85)
         r.MoveSmallMotorInDegrees(-180, 500)
     
     def Seaweed(r:Robot):
@@ -208,8 +208,21 @@ class Missions:
         
 
     def CoralNursery(r:Robot):
-        r.MoveSmallMotorInDegrees(-170)
-        r.TurnInPlace(-25)
+        r.TurnInPlace(-55)
+        print('nursery turn')
+        r.MoveSmallMotorInDegrees(-65)
+        print('nursery small')
+        r.TurnInPlace(45)
+        print('nursery turn')
+        r.DriveForDistance(30)
+        print('nursery drive')
+        r.MoveBigMotorInDegrees(100)
+        print('nursery big')
+        r.DriveForDistance(180)
+        print('nursery drive')
+        r.MoveSmallMotorUntilStalled(500)
+        print('nursery small')
+        r.DriveForDistance(-1000)
 
     def Shark(r:Robot):
         r.MoveSmallMotorUntilStalled(500)
@@ -236,7 +249,7 @@ class Missions:
 # run functions
 def Run1(r:Robot):
     # Home location
-    r.DriveForDistance(350)
+    r.DriveForDistance(345)
     r.TurnInPlace(43)
     # Boat mission
     Missions.ShippingLanes(r)
@@ -274,25 +287,35 @@ def Run3(r:Robot):
 
 def Run4(r:Robot):
     # Home location
-    r.DriveForDistance(400)
-    r.TurnInPlace(-135)
+    # r.DriveForDistance(250)
+    # r.TurnInPlace(-90)
     # Boxes mission
-    Missions.CrabBoxes(r)
-    r.Curve(200, 90)
+    # Missions.CrabBoxes(r)
+    # r.Curve(200, 90)
+    r.DriveForDistance(2000)
     # Away Location
 
 def Run5(r:Robot):
     # Away Location
     r.TurnInPlace(45)
-    r.DriveForDistance(240)
+    print('turn')
+    r.DriveForDistance(230)
+    print('drive')
     r.TurnInPlace(-45)
-    # Adjust front arm
-    r.MoveSmallMotorUntilStalled(500, 30)
+    print('turn')
+    # Adjust front AND BACK arm
+    r.MoveSmallMotorUntilStalled(-500, 30)
+    print('small')
+    r.MoveBigMotorUntilStalled(-500)
+    print('big')
     # drive to coral nursery
-    r.MoveSmallMotorInDegrees(-90)
-    r.DriveForDistance(360)
+    r.MoveSmallMotorInDegrees(145)
+    print('small')
+    r.DriveForDistance(375)
+    print('drive')
     # Coral Nursery Mission
     Missions.CoralNursery(r)
+
     # Away Location
 
 def Run6(r:Robot):
@@ -361,7 +384,7 @@ def RunMission(r:Robot, selected):
             if alltotaltime > 150:
                 print(f"Time exceeded by {150-alltotaltime} seconds.")
             print("---------------------------------------")
-        except UnboundLocalError:
+        except:
             print("You didn't run everything.")
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
     r.StatusLight(battery_status_light)
