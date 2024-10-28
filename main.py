@@ -180,8 +180,8 @@ class Missions:
     def Whales(r:Robot):
         #first whale
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-65, 500)
         r.DriveForDistance(-150)
+        r.MoveSmallMotorInDegrees(-90)
         #second whale not finished
 
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
@@ -208,7 +208,8 @@ class Missions:
         
 
     def CoralNursery(r:Robot):
-        pass
+        r.MoveSmallMotorInDegrees(-170)
+        r.TurnInPlace(-25)
 
     def Shark(r:Robot):
         r.MoveSmallMotorUntilStalled(500)
@@ -217,6 +218,9 @@ class Missions:
         r.MoveSmallMotorInDegrees(90)
 
     def CoralReef(r:Robot):
+        pass
+    
+    def ScubaDiver(r:Robot):
         pass
     
     def ResearchShip(r:Robot):
@@ -252,14 +256,17 @@ def Run1(r:Robot):
 def Run2(r:Robot):
     # Home location
     r.TurnInPlace(-45)
-    r.DriveForDistance(150) 
+    r.DriveForDistance(130) 
     r.TurnInPlace(45)
-    r.DriveForDistance(1000)
+    r.MoveSmallMotorUntilStalled(500)
+    r.MoveSmallMotorInDegrees(-90, 500)
+    r.DriveForDistance(970)
+    r.DriveForDistance(-50)
     # Whales mission
     Missions.Whales(r)
-    r.TurnInPlace(180)
-    r.DriveForDistance(700)
-    r.TurnInPlace(-135)
+    r.DriveForDistance(-700)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(-200)
     # Home location
     
 def Run3(r:Robot):
@@ -276,13 +283,16 @@ def Run4(r:Robot):
 
 def Run5(r:Robot):
     # Away Location
-
-    # Shark mission
-    Missions.Shark(r)
-
-    # Coral Nursery mission
+    r.TurnInPlace(45)
+    r.DriveForDistance(240)
+    r.TurnInPlace(-45)
+    # Adjust front arm
+    r.MoveSmallMotorUntilStalled(500, 30)
+    # drive to coral nursery
+    r.MoveSmallMotorInDegrees(-90)
+    r.DriveForDistance(360)
+    # Coral Nursery Mission
     Missions.CoralNursery(r)
-
     # Away Location
 
 def Run6(r:Robot):
