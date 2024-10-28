@@ -216,6 +216,10 @@ class Missions:
 
     def Shark(r:Robot):
         r.MoveSmallMotorUntilStalled(500)
+        r.MoveBigMotorInDegrees(-20)
+        r.TurnInPlace(45)
+        r.MoveBigMotorInDegrees(20)
+        r.TurnInPlace(-45)
 
     def CoralReef(r:Robot):
         pass
