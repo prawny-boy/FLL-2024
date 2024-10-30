@@ -237,7 +237,7 @@ class Missions:
         pass
 
     def AnglerFish(r:Robot):
-        pass
+        r.DriveForDistance(400)
 
     def Submarine(r:Robot):
         pass
@@ -283,12 +283,22 @@ def Run3(r:Robot):
 
 def Run4(r:Robot):
     # Home location
-    # r.DriveForDistance(250)
-    # r.TurnInPlace(-90)
-    # Boxes mission
-    # Missions.CrabBoxes(r)
-    # r.Curve(200, 90)
-    r.DriveForDistance(2000)
+    r.TurnInPlace(-55)
+    r.DriveForDistance(700)
+    # Anglerfish Mission
+    Missions.AnglerFish(r)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(-200)
+    # Octopus in the circle
+    r.MoveBigMotorInDegrees(-180)
+    # Sample to Away location
+    r.DriveForDistance(50)
+    r.TurnInPlace(15)
+    r.DriveForDistance(300)
+    r.TurnInPlace(-55)
+    r.DriveForDistance(800)
+    r.TurnInPlace(-45)
+    r.DriveForDistance(200)
     # Away Location
 
 def Run5(r:Robot):
