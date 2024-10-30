@@ -58,7 +58,7 @@ class Robot:
     def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
         self.small.run_until_stalled(speed, duty_limit=duty_limit)
 
-    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
         self.big.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
@@ -293,16 +293,21 @@ def Run4(r:Robot):
 
 def Run5(r:Robot):
     # Away Location
-    r.TurnInPlace(45)
-    r.DriveForDistance(230)
-    r.TurnInPlace(-45)
-    r.MoveSmallMotorUntilStalled(-500, 30)
+    r.TurnInPlace(40)
+    r.DriveForDistance(110)
     r.MoveBigMotorUntilStalled(-500)
-    r.MoveSmallMotorInDegrees(145, wait=False)
+    r.MoveBigMotorInDegrees(20)
+    r.MoveSmallMotorUntilStalled(-500)
+    r.MoveSmallMotorInDegrees(20)
+    r.TurnInPlace(-40)
     r.DriveForDistance(375)
+    r.MoveSmallMotorInDegrees(90)
+    r.DriveForDistance(30)
+    r.MoveBigMotorInDegrees(75)
+    
     # Coral Nursery Mission
-    Missions.CoralNursery(r)
-    r.DriveForDistance(180)
+    # Missions.CoralNursery(r)
+    r.DriveForDistance(-800)
     # Shark Mission
     Missions.Shark(r)
     r.DriveForDistance(-1000)
@@ -310,15 +315,27 @@ def Run5(r:Robot):
 
 def Run6(r:Robot):
     # Away Location
-
+    r.DriveForDistance(550)
+    r.DriveForDistance(-550)
     # Coral Reef Mission
-    Missions.CoralReef(r)
+    # Missions.CoralReef(r)
 
     # Away Location
 
 def Run7(r:Robot):
     # Away Location
-
+    r.TurnInPlace(35)
+    r.DriveForDistance(350)
+    r.MoveSmallMotorUntilStalled(-500)
+    r.MoveSmallMotorInDegrees(90)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(450)
+    r.TurnInPlace(-40)
+    r.DriveForDistance(40)
+    r.MoveSmallMotorInDegrees(-115, 800)
+    # r.DriveForDistance(-200)
+    # r.TurnInPlace
+    
     # Research Ship Mission
     Missions.ResearchShip(r)
 
