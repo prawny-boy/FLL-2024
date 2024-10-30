@@ -15,6 +15,7 @@ ROBOT_ACCELERATION = 500
 ROBOT_TURN_RATE = 500
 ROBOT_TURN_ACCELERATION = 500
 ROBOT_MAX_TORQUE = 1000
+ROBOT_DUTY_LIMIT = 50
 
 # Variables
 battery_status_light = Color.GREEN
@@ -55,10 +56,10 @@ class Robot:
         self.big.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
-    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=ROBOT_DUTY_LIMIT):
         self.small.run_until_stalled(speed, duty_limit=duty_limit)
 
-    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
+    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=ROBOT_DUTY_LIMIT):
         self.big.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
@@ -214,9 +215,9 @@ class Missions:
 
     def CoralNursery(r:Robot):
         r.MoveBigMotorInDegrees(90)
-        r.DriveForDistance(-130)
-        r.DriveForDistance(130)
-        r.TurnInPlace(-15)
+        r.DriveForDistance(-100)
+        r.TurnInPlace(-8)
+        r.DriveForDistance(100)
         r.MoveSmallMotorInDegrees(720)
         
     def Shark(r:Robot):
@@ -332,6 +333,7 @@ def Run5(r:Robot):
     r.DriveForDistance(150)
     r.MoveSmallMotorUntilStalled(500)
     r.TurnInPlace(45)
+    r.DriveForDistance(100)
     # Coral Reef Mission
     Missions.CoralReef(r)
     r.DriveForDistance(-50)
@@ -342,9 +344,9 @@ def Run5(r:Robot):
 def Run6(r:Robot):
     # Away Location
     # Put the coral onto the coral nursery
-    r.DriveForDistance(250)
+    r.DriveForDistance(600)
     wait(500)
-    r.DriveForDistance(-250)
+    r.DriveForDistance(-600)
     # Away Location
 
 def Run7(r:Robot):
