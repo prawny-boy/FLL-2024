@@ -15,7 +15,6 @@ ROBOT_ACCELERATION = 500
 ROBOT_TURN_RATE = 500
 ROBOT_TURN_ACCELERATION = 500
 ROBOT_MAX_TORQUE = 1000
-ROBOT_DUTY_LIMIT = 50
 
 # Variables
 battery_status_light = Color.GREEN
@@ -56,10 +55,10 @@ class Robot:
         self.big.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
-    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=ROBOT_DUTY_LIMIT):
+    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
         self.small.run_until_stalled(speed, duty_limit=duty_limit)
 
-    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=ROBOT_DUTY_LIMIT):
+    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
         self.big.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
@@ -178,17 +177,17 @@ class Missions:
     def Seaweed(r:Robot):
         r.MoveBigMotorInDegrees(45)
 
-    def Whales(r:Robot, whaleNum:int = 1):
-        if whaleNum == 1:
-            #first whale
+    def Whales(r:Robot, whaleNumber:int):
+        if whaleNumber == 1:
+            # first whale
             r.MoveSmallMotorUntilStalled(500)
             r.DriveForDistance(-150)
             r.MoveSmallMotorInDegrees(-90)
-        elif whaleNum == 2:
-            #second whale not finished
+        elif whaleNumber == 2:
+            # second whale not finished
             pass
         else:
-            print("whaleNum is invalid [Missions.Whales]")
+            print("Error: whaleNumber must be 1 or 2 [Missions.Whales]") 
 
     def Octopus(r:Robot): # start with the robot facing the pusher in the middle
         r.DriveForDistance(-500)
@@ -213,29 +212,28 @@ class Missions:
         r.DriveForDistance(700)
 
     def CoralNursery(r:Robot):
-        r.MoveBigMotorInDegrees(90)
-        r.DriveForDistance(-100)
-        r.TurnInPlace(-8)
-        r.DriveForDistance(100)
-        r.MoveSmallMotorInDegrees(720)
-        
+        r.TurnInPlace(-55)
+        r.MoveSmallMotorInDegrees(-65)
+        r.TurnInPlace(45)
+        r.DriveForDistance(30)
+        r.MoveBigMotorInDegrees(100)
+
     def Shark(r:Robot):
-        r.MoveSmallMotorInDegrees(-720)
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveBigMotorInDegrees(-20)
+        r.TurnInPlace(45)
+        r.MoveBigMotorInDegrees(20)
+        r.TurnInPlace(-45)
 
     def CoralReef(r:Robot):
-        r.MoveSmallMotorInDegrees(-720)
+        pass
     
     def ScubaDiver(r:Robot):
         pass
     
-    def ResearchShip(r:Robot, part):
-        if part == 1:
-            pass
-        elif part == 2:
-            pass
-        else:
-            print("Part is invalid [Missions.ResearchShip]")
+    def ResearchShip(r:Robot):
         # add putting the things into the research ship here
+        pass
 
     def AnglerFish(r:Robot):
         r.DriveForDistance(400)
@@ -304,60 +302,56 @@ def Run4(r:Robot):
 
 def Run5(r:Robot):
     # Away Location
-    r.TurnInPlace(45)
-    print('turn')
-    r.DriveForDistance(100)
-    print('drive')
-    r.TurnInPlace(-45)
-    print('turn')
-    r.MoveSmallMotorUntilStalled(-500, 30)
+    r.TurnInPlace(40)
+    r.DriveForDistance(110)
     r.MoveBigMotorUntilStalled(-500)
-    r.DriveForDistance(400)
+    r.MoveBigMotorInDegrees(20)
+    r.MoveSmallMotorUntilStalled(-500)
+    r.MoveSmallMotorInDegrees(20)
+    r.TurnInPlace(-40)
+    r.DriveForDistance(375)
+    r.MoveSmallMotorInDegrees(90)
+    r.DriveForDistance(30)
+    r.MoveBigMotorInDegrees(75)
+    
     # Coral Nursery Mission
-    Missions.CoralNursery(r)
-    r.TurnInPlace(15+90)
-    r.DriveForDistance(100)
-    r.TurnInPlace(-90)
-    r.DriveForDistance(200)
-    r.TurnInPlace(-45)
-    r.DriveForDistance(50)
+    # Missions.CoralNursery(r)
+    r.DriveForDistance(-800)
     # Shark Mission
     Missions.Shark(r)
-    # Knock over the sample
-    r.DriveForDistance(-200)
-    r.DriveForDistance(100)
-    r.TurnInPlace(45)
-    r.DriveForDistance(150)
-    r.MoveSmallMotorUntilStalled(500)
-    r.TurnInPlace(45)
-    r.DriveForDistance(100)
-    # Coral Reef Mission
-    Missions.CoralReef(r)
-    r.DriveForDistance(-50)
-    r.TurnInPlace(-45)
-    r.DriveForDistance(-400)
+    r.DriveForDistance(-1000)
     # Away Location
 
 def Run6(r:Robot):
     # Away Location
-    # Put the coral onto the coral nursery
-    r.DriveForDistance(600)
-    wait(500)
-    r.DriveForDistance(-600)
+    r.DriveForDistance(550)
+    r.DriveForDistance(-550)
+    # Coral Reef Mission
+    # Missions.CoralReef(r)
+
     # Away Location
 
 def Run7(r:Robot):
     # Away Location
-    # Research Ship Mission (Using arm to pull)
-    Missions.ResearchShip(r, 1)
-    
-    # Crab Boxes Mission
-    Missions.CrabBoxes(r)
-    
-    # Using back to push
-    Missions.ResearchShip(r, 2)
-    
-    # Home Location
+    r.TurnInPlace(35)
+    r.DriveForDistance(350)
+    r.MoveSmallMotorUntilStalled(-500)
+    r.MoveSmallMotorInDegrees(90)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(450)
+    r.TurnInPlace(-40)
+    r.DriveForDistance(25)
+    r.MoveSmallMotorInDegrees(-200, 900)
+    wait(500)
+    r.MoveSmallMotorInDegrees(40)
+    r.DriveForDistance(-50)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(70)
+    r.MoveSmallMotorInDegrees(200)
+    r.DriveForDistance(-100)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(1000)
+    # Away Location
 
 def Run8(r:Robot):
     # Home Location
@@ -367,6 +361,9 @@ def Run8(r:Robot):
 
     # Submarine Mission
     Missions.Submarine(r)
+
+    # Second Whale Mission
+    Missions.Whales(r, 2)
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
