@@ -341,15 +341,18 @@ def Run7(r:Robot):
     r.TurnInPlace(-35)
     r.DriveForDistance(450)
     r.TurnInPlace(-40)
-    r.DriveForDistance(40)
-    r.MoveSmallMotorInDegrees(-115, 800)
-    # r.DriveForDistance(-200)
-    # r.TurnInPlace
-    
-    # Research Ship Mission
-    Missions.ResearchShip(r)
-
-    # Home Location
+    r.DriveForDistance(25)
+    r.MoveSmallMotorInDegrees(-200, 900)
+    wait(500)
+    r.MoveSmallMotorInDegrees(40)
+    r.DriveForDistance(-50)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(70)
+    r.MoveSmallMotorInDegrees(200)
+    r.DriveForDistance(-100)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(1000)
+    # Away Location
 
 def Run8(r:Robot):
     # Home Location
