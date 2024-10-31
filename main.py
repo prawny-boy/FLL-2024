@@ -200,22 +200,51 @@ class Missions:
         pass
     
     def Seaweed(r:Robot):
-        pass
+        r.MoveBigMotorInDegrees(45)
 
-    def Whales(r:Robot):
-        pass
+    def Whales(r:Robot, whaleNum:int = 1):
+        if whaleNum == 1:
+            #first whale
+            r.MoveSmallMotorUntilStalled(500)
+            r.DriveForDistance(-150)
+            r.MoveSmallMotorInDegrees(-90)
+        elif whaleNum == 2:
+            #second whale not finished
+            pass
+        else:
+            print("whaleNum is invalid [Missions.Whales]")
 
-    def Octopus(r:Robot):
-        pass
+    def Octopus(r:Robot): # start with the robot facing the pusher in the middle
+        r.DriveForDistance(-500)
+        wait(100)
+        r.DriveForDistance(500)
 
     def CrabBoxes(r:Robot):
-        pass
-        
-    def CoralNursery(r:Robot):
-        pass
+        r.DriveForDistance(300, wait=False)
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-65)
+        r.DriveForDistance(300)
+        r.TurnInPlace(90)
+        r.DriveForDistance(380)
+        r.TurnInPlace(-135)
+        r.DriveForDistance(230)
+        r.MoveSmallMotorUntilStalled(-500, 200)
+        r.DriveForDistance(-150, 700)
+        r.MoveSmallMotorUntilStalled(500)
+        r.MoveSmallMotorInDegrees(-65)
+        r.TurnInPlace(90)
+        r.TurnInPlace(45)
+        r.DriveForDistance(700)
 
+    def CoralNursery(r:Robot):
+        r.MoveBigMotorInDegrees(90)
+        r.DriveForDistance(-100)
+        r.TurnInPlace(-8)
+        r.DriveForDistance(100)
+        r.MoveSmallMotorInDegrees(720)
+        
     def Shark(r:Robot):
-        pass
+        r.MoveSmallMotorInDegrees(-720)
 
     def CoralReef(r:Robot):
         r.MoveSmallMotorInDegrees(-720)
