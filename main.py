@@ -178,7 +178,7 @@ class Missions:
     def Seaweed(r:Robot):
         r.MoveBigMotorInDegrees(45)
 
-    def Whales(r:Robot, whaleNum):
+    def Whales(r:Robot, whaleNum:int = 1):
         if whaleNum == 1:
             #first whale
             r.MoveSmallMotorUntilStalled(500)
@@ -211,7 +211,6 @@ class Missions:
         r.TurnInPlace(90)
         r.TurnInPlace(45)
         r.DriveForDistance(700)
-        
 
     def CoralNursery(r:Robot):
         r.MoveBigMotorInDegrees(90)
@@ -222,7 +221,6 @@ class Missions:
         
     def Shark(r:Robot):
         r.MoveSmallMotorInDegrees(-720)
-
 
     def CoralReef(r:Robot):
         r.MoveSmallMotorInDegrees(-720)
