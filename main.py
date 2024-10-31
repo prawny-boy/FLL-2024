@@ -351,16 +351,25 @@ def Run6(r:Robot):
 
 def Run7(r:Robot):
     # Away Location
-    # Research Ship Mission (Using arm to pull)
-    Missions.ResearchShip(r, 1)
-    
-    # Crab Boxes Mission
-    Missions.CrabBoxes(r)
-    
-    # Using back to push
-    Missions.ResearchShip(r, 2)
-    
-    # Home Location
+    r.TurnInPlace(35)
+    r.DriveForDistance(350)
+    r.MoveSmallMotorUntilStalled(-500)
+    r.MoveSmallMotorInDegrees(90)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(450)
+    r.TurnInPlace(-40)
+    r.DriveForDistance(25)
+    r.MoveSmallMotorInDegrees(-200, 900)
+    wait(500)
+    r.MoveSmallMotorInDegrees(40)
+    r.DriveForDistance(-50)
+    r.TurnInPlace(-35)
+    r.DriveForDistance(70)
+    r.MoveSmallMotorInDegrees(200)
+    r.DriveForDistance(-100)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(1000)
+    # Away Location
 
 def Run8(r:Robot):
     # Home Location
