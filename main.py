@@ -171,12 +171,12 @@ class Missions:
     def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle from the ground
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-80, 500)
-        r.DriveForDistance(85)
+        r.MoveSmallMotorInDegrees(-78, 500)
+        r.DriveForDistance(80)
         r.MoveSmallMotorInDegrees(-180, 500)
     
     def Seaweed(r:Robot):
-        r.MoveBigMotorInDegrees(105)
+        r.MoveBigMotorInDegrees(120)
         r.DriveForDistance(50)
 
     def Whales(r:Robot, whaleNum):
@@ -257,7 +257,7 @@ def Run1(r:Robot):
     r.DriveForDistance(-50)
     r.MoveSmallMotorInDegrees(90, 500)
     r.TurnInPlace(-45)
-    r.DriveForDistance(300)
+    r.DriveForDistance(290)
     r.TurnInPlace(-95)
     r.DriveForDistance(-60)
     # Seaweed mission
@@ -359,16 +359,18 @@ def Run7(r:Robot):
     r.TurnInPlace(-35)
     r.DriveForDistance(450)
     r.TurnInPlace(-40)
-    r.DriveForDistance(13)
-    r.MoveSmallMotorInDegrees(-200, 900)
+    r.DriveForDistance(20)
+    r.MoveSmallMotorInDegrees(-100, 900)
     wait(500)
-    r.MoveSmallMotorInDegrees(40)
-    r.DriveForDistance(-50)
-    r.TurnInPlace(-35)
-    r.DriveForDistance(70)
-    r.MoveSmallMotorInDegrees(200)
+    r.MoveSmallMotorInDegrees(50)
     r.DriveForDistance(-100)
-    r.TurnInPlace(-90)
+    r.MoveSmallMotorInDegrees(50)
+    r.DriveForDistance(100)
+    r.TurnInPlace(-55)
+    r.DriveForDistance(44)
+    r.MoveSmallMotorInDegrees(200)
+    r.DriveForDistance(-140)
+    r.TurnInPlace(-70)
     r.DriveForDistance(1000)
     # Away Location
 
