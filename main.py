@@ -9,7 +9,7 @@ DRIVEBASE_WHEEL_DIAMETER = 56
 DRIVEBASE_AXLE_TRACK = 105 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
-MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", '8', "C"]
+MENU_OPTIONS = ["1", "2", "3", "4", "7", '8', "C"]
 ROBOT_SPEED = 500
 ROBOT_ACCELERATION = 500
 ROBOT_TURN_RATE = 500
@@ -365,9 +365,6 @@ def Run8(r:Robot):
     # Submarine Mission
     Missions.Submarine(r)
 
-def Test(r:Robot):
-    r.SetSmallMotorAngle(100)
-
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
     neg = value / abs(value) # will either be 1 or -1
@@ -432,10 +429,8 @@ while True:
     for i in range(len(MENU_OPTIONS)):
         current_menu.append(MENU_OPTIONS[(i+MENU_OPTIONS.index(last_run)+1) % len(MENU_OPTIONS)])
     selected = hub_menu(*current_menu)
-    if selected != "C" and selected != 'T':
+    if selected != "C":
         last_run = RunMission(my_robot, selected)
     else:
         if selected == 'C':
             my_robot.CleanMotors()
-        else:
-            Test(my_robot)
