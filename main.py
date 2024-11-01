@@ -336,7 +336,7 @@ def Run7(r:Robot):
     r.TurnInPlace(-35)
     r.DriveForDistance(450)
     r.TurnInPlace(-40)
-    r.DriveForDistance(25)
+    r.DriveForDistance(13)
     r.MoveSmallMotorInDegrees(-200, 900)
     wait(500)
     r.MoveSmallMotorInDegrees(40)
