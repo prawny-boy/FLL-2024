@@ -24,7 +24,7 @@ class Robot:
     def __init__(self):
         # DRIVE MOTORS: Left (A ) Right (B) Big (E) Small (F)
         self.leftDrive = Motor(Port.A, Direction.COUNTERCLOCKWISE)
-        self.rightDrive = Motor(Port.B)
+        self.rightDrive = Motor(Port.D)
         self.big = Motor(Port.E)
         self.small = Motor(Port.F)
 
@@ -168,14 +168,15 @@ class Missions:
     # Sorted in order of what we are doing
 
     def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
-        # Reset the angle
+        # Reset the angle from the ground
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-75, 500)
+        r.MoveSmallMotorInDegrees(-80, 500)
         r.DriveForDistance(85)
         r.MoveSmallMotorInDegrees(-180, 500)
     
     def Seaweed(r:Robot):
-        r.MoveBigMotorInDegrees(45)
+        r.MoveBigMotorInDegrees(105)
+        r.DriveForDistance(50)
 
     def Whales(r:Robot, whaleNumber:int):
         if whaleNumber == 1:
@@ -185,7 +186,8 @@ class Missions:
             r.MoveSmallMotorInDegrees(-90)
         elif whaleNumber == 2:
             # second whale not finished
-            pass
+            r.DriveForDistance(200)
+            r.TurnInPlace(-90)
         else:
             print("Error: whaleNumber must be 1 or 2 [Missions.Whales]") 
 
@@ -237,7 +239,7 @@ class Missions:
         pass
 
     def AnglerFish(r:Robot):
-        r.DriveForDistance(400)
+        r.DriveForDistance(1000)
 
     def Submarine(r:Robot):
         pass
@@ -254,10 +256,9 @@ def Run1(r:Robot):
     r.TurnInPlace(-45)
     r.DriveForDistance(300)
     r.TurnInPlace(-95)
-    r.DriveForDistance(-65)
+    r.DriveForDistance(-60)
     # Seaweed mission
     Missions.Seaweed(r)
-    r.DriveForDistance(50)
     r.TurnInPlace(-90)
     r.DriveForDistance(700)
     # Home location
@@ -269,13 +270,11 @@ def Run2(r:Robot):
     r.TurnInPlace(45)
     r.MoveSmallMotorUntilStalled(500)
     r.MoveSmallMotorInDegrees(-90, 500)
-    r.DriveForDistance(970)
-    r.DriveForDistance(-50)
+    r.DriveForDistance(770)
     # Whales mission
     Missions.Whales(r, 1)
+    r.TurnInPlace(-20)
     r.DriveForDistance(-700)
-    r.TurnInPlace(-90)
-    r.DriveForDistance(-200)
     # Home location
     
 def Run3(r:Robot):
@@ -283,22 +282,18 @@ def Run3(r:Robot):
 
 def Run4(r:Robot):
     # Home location
-    r.TurnInPlace(-55)
-    r.DriveForDistance(700)
+    r.TurnInPlace(-56)
     # Anglerfish Mission
     Missions.AnglerFish(r)
     r.TurnInPlace(-35)
-    r.DriveForDistance(-200)
+    r.DriveForDistance(-120)
     # Octopus in the circle
     r.MoveBigMotorInDegrees(-180)
     # Sample to Away location
-    r.DriveForDistance(50)
     r.TurnInPlace(15)
-    r.DriveForDistance(300)
+    r.DriveForDistance(380)
     r.TurnInPlace(-55)
-    r.DriveForDistance(800)
-    r.TurnInPlace(-45)
-    r.DriveForDistance(200)
+    r.DriveForDistance(1000)
     # Away Location
 
 def Run5(r:Robot):
@@ -310,7 +305,7 @@ def Run5(r:Robot):
     r.MoveSmallMotorUntilStalled(-500)
     r.MoveSmallMotorInDegrees(20)
     r.TurnInPlace(-40)
-    r.DriveForDistance(375)
+    r.DriveForDistance(450)
     r.MoveSmallMotorInDegrees(90)
     r.DriveForDistance(30)
     r.MoveBigMotorInDegrees(75)
@@ -355,16 +350,23 @@ def Run7(r:Robot):
     # Away Location
 
 def Run8(r:Robot):
-    # Home Location
-
-    # Angler Fish Mission
-    Missions.AnglerFish(r)
-
+    turn = -75
+    # Away Location
+    r.TurnInPlace(abs(turn))
+    r.DriveForDistance(1080)
+    r.MoveBigMotorInDegrees(-180)
+    r.DriveForDistance(40)
+    r.TurnInPlace(-45)
+    # Second Whale Mission
+    # Missions.Whales(r, 2)
+    r.DriveForDistance(400)
+    r.TurnInPlace(-90)
+    r.DriveForDistance(500)
     # Submarine Mission
     Missions.Submarine(r)
 
-    # Second Whale Mission
-    Missions.Whales(r, 2)
+def Test(r:Robot):
+    r.SetSmallMotorAngle(100)
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
@@ -430,7 +432,10 @@ while True:
     for i in range(len(MENU_OPTIONS)):
         current_menu.append(MENU_OPTIONS[(i+MENU_OPTIONS.index(last_run)+1) % len(MENU_OPTIONS)])
     selected = hub_menu(*current_menu)
-    if not selected == "C":
+    if selected != "C" and selected != 'T':
         last_run = RunMission(my_robot, selected)
     else:
-        my_robot.CleanMotors()
+        if selected == 'C':
+            my_robot.CleanMotors()
+        else:
+            Test(my_robot)
