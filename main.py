@@ -164,67 +164,57 @@ class Animations:
     ]
 
 class Missions:
-    # Sorted in order of what we are doing
-
-    def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
-        # Reset the angle from the ground
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-75, 500)
-        r.DriveForDistance(80)
-        r.MoveSmallMotorInDegrees(-180, 500)
+    """
+    Game missions
+    1. Coral Nursery
+        A. Hang Coral
+        B. 
+    2. Shark
+        A. Pickup Shark
+        B. Put Shark into the habitat
+    3. Coral Reef
+        A. Flip up the  coral
+    4. Scuba Diver
+        A. Pick up diver
+        B. Put diver onto coral reef
+    5. Anglerfish
+        A. Flick angler fish into the ship
+    6. Raise the mast
+    7. Kraken's treasure
+    8. Artificial habtat
+    9. Unexpected encounter
+    10. Send over the submersible
+    11. Sonar Discovery
+    12. Feed the whale
+    13. Change shipping lanes
+    14. Sample colletion
+        A. Kelp
+        B. Seabed
+        C. Water
+        D. Treasure Chest
+        E. Trident Parts
+    15. Research Vessel
+    """
+    def ShippingLanes(r:Robot):
+        pass
     
     def Seaweed(r:Robot):
-        r.MoveBigMotorInDegrees(120)
-        r.DriveForDistance(50)
+        pass
 
-    def Whales(r:Robot, whaleNumber:int):
-        if whaleNumber == 1:
-            # first whale
-            r.MoveSmallMotorUntilStalled(500)
-            r.DriveForDistance(-150)
-            r.MoveSmallMotorInDegrees(-90)
-        elif whaleNumber == 2:
-            # second whale not finished
-            r.DriveForDistance(200)
-            r.TurnInPlace(-90)
-        else:
-            print("Error: whaleNumber must be 1 or 2 [Missions.Whales]") 
+    def Whales(r:Robot):
+        pass
 
-    def Octopus(r:Robot): # start with the robot facing the pusher in the middle
-        r.DriveForDistance(-500)
-        wait(100)
-        r.DriveForDistance(500)
+    def Octopus(r:Robot):
+        pass
 
     def CrabBoxes(r:Robot):
-        r.DriveForDistance(300, wait=False)
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-65)
-        r.DriveForDistance(300)
-        r.TurnInPlace(90)
-        r.DriveForDistance(380)
-        r.TurnInPlace(-135)
-        r.DriveForDistance(230)
-        r.MoveSmallMotorUntilStalled(-500, 200)
-        r.DriveForDistance(-150, 700)
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-65)
-        r.TurnInPlace(90)
-        r.TurnInPlace(45)
-        r.DriveForDistance(700)
+        pass
         
     def CoralNursery(r:Robot):
-        r.TurnInPlace(-55)
-        r.MoveSmallMotorInDegrees(-65)
-        r.TurnInPlace(45)
-        r.DriveForDistance(30)
-        r.MoveBigMotorInDegrees(100)
+        pass
 
     def Shark(r:Robot):
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveBigMotorInDegrees(-20)
-        r.TurnInPlace(45)
-        r.MoveBigMotorInDegrees(20)
-        r.TurnInPlace(-45)
+        pass
 
     def CoralReef(r:Robot):
         pass
@@ -233,11 +223,10 @@ class Missions:
         pass
     
     def ResearchShip(r:Robot):
-        # add putting the things into the research ship here
         pass
 
     def AnglerFish(r:Robot):
-        r.DriveForDistance(1100)
+        pass
 
     def Submarine(r:Robot):
         pass
