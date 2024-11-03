@@ -212,7 +212,6 @@ class Missions:
         r.TurnInPlace(90)
         r.TurnInPlace(45)
         r.DriveForDistance(700)
-        
 
     def CoralNursery(r:Robot):
         r.TurnInPlace(-55)
