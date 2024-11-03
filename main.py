@@ -44,16 +44,15 @@ class Robot:
         self.hub = PrimeHub(front_side=-Axis.Y)
         self.hub.system.set_stop_button(Button.BLUETOOTH)
     
+    def Battery(self, val:float):
+        return val + (val*(100-Rescale(self.hub.battery.voltage(), LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)))
+        
     # add wait parameter to plug in to functions for these below
     def MoveSmallMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
-        self.driveBase.use_gyro(True)
         self.small.run_angle(speed, degrees, wait=wait)
-        self.driveBase.use_gyro(False)
     
     def MoveBigMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
-        self.driveBase.use_gyro(True)
         self.big.run_angle(speed, degrees, wait=wait)
-        self.driveBase.use_gyro(False)
     
     def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
         self.small.run_until_stalled(speed, duty_limit=duty_limit)
@@ -170,7 +169,7 @@ class Missions:
     def ShippingLanes(r:Robot): # Start with the robot facing the boat in the middle about 7 cm away
         # Reset the angle from the ground
         r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-78, 500)
+        r.MoveSmallMotorInDegrees(-75, 500)
         r.DriveForDistance(80)
         r.MoveSmallMotorInDegrees(-180, 500)
     
@@ -213,7 +212,6 @@ class Missions:
         r.TurnInPlace(45)
         r.DriveForDistance(700)
         
-
     def CoralNursery(r:Robot):
         r.TurnInPlace(-55)
         r.MoveSmallMotorInDegrees(-65)
@@ -239,7 +237,7 @@ class Missions:
         pass
 
     def AnglerFish(r:Robot):
-        r.DriveForDistance(1000)
+        r.DriveForDistance(1100)
 
     def Submarine(r:Robot):
         pass
@@ -256,7 +254,7 @@ def Run1(r:Robot):
     r.TurnInPlace(-45)
     r.DriveForDistance(290)
     r.TurnInPlace(-95)
-    r.DriveForDistance(-60)
+    r.DriveForDistance(-70)
     # Seaweed mission
     Missions.Seaweed(r)
     r.TurnInPlace(-90)
@@ -282,17 +280,17 @@ def Run3(r:Robot):
 
 def Run4(r:Robot):
     # Home location
-    r.TurnInPlace(-56)
+    r.TurnInPlace(-55)
     # Anglerfish Mission
     Missions.AnglerFish(r)
     r.TurnInPlace(-35)
-    r.DriveForDistance(-120)
+    r.DriveForDistance(-180)
     # Octopus in the circle
-    r.MoveBigMotorInDegrees(-180)
+    r.MoveBigMotorInDegrees(-90)
     # Sample to Away location
     r.TurnInPlace(15)
-    r.DriveForDistance(380)
-    r.TurnInPlace(-55)
+    r.DriveForDistance(340)
+    r.TurnInPlace(-60)
     r.DriveForDistance(1000)
     # Away Location
 
@@ -336,16 +334,16 @@ def Run7(r:Robot):
     r.TurnInPlace(-35)
     r.DriveForDistance(450)
     r.TurnInPlace(-40)
-    r.DriveForDistance(20)
+    r.DriveForDistance(15)
     r.MoveSmallMotorInDegrees(-100, 900)
     wait(500)
     r.MoveSmallMotorInDegrees(50)
     r.DriveForDistance(-100)
-    r.MoveSmallMotorInDegrees(50)
+    r.MoveSmallMotorInDegrees(30)
     r.DriveForDistance(100)
-    r.TurnInPlace(-55)
-    r.DriveForDistance(44)
-    r.MoveSmallMotorInDegrees(200)
+    r.TurnInPlace(-50)
+    r.DriveForDistance(40)
+    r.MoveSmallMotorInDegrees(100)
     r.DriveForDistance(-140)
     r.TurnInPlace(-70)
     r.DriveForDistance(1000)
@@ -358,11 +356,11 @@ def Run8(r:Robot):
     r.DriveForDistance(1080)
     r.MoveBigMotorInDegrees(-180)
     r.DriveForDistance(40)
-    r.TurnInPlace(-45)
+    r.TurnInPlace(-50)
     # Second Whale Mission
     # Missions.Whales(r, 2)
-    r.DriveForDistance(400)
-    r.TurnInPlace(-90)
+    r.DriveForDistance(450)
+    r.TurnInPlace(-95)
     r.DriveForDistance(500)
     # Submarine Mission
     Missions.Submarine(r)
