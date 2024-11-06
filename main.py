@@ -23,11 +23,11 @@ battery_status_light = Color.GREEN
 # Define the Robot
 class Robot:
     def __init__(self):
-        # DRIVE MOTORS: LeftDrive (F) RightDrive (B) right (D) left (C)
+        # DRIVE MOTORS: Left (A ) Right (B) Big (E) Small (F)
         self.leftDrive = Motor(Port.F, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B)
-        self.right = Motor(Port.D)
-        self.left = Motor(Port.C)
+        self.rightBig = Motor(Port.D)
+        self.leftBig = Motor(Port.C)
 
         # Defines the drivebase
         self.driveBase = DriveBase(self.leftDrive, self.rightDrive, DRIVEBASE_WHEEL_DIAMETER, DRIVEBASE_AXLE_TRACK)
@@ -49,17 +49,21 @@ class Robot:
         return val + (val*(100-Rescale(self.hub.battery.voltage(), LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)))
         
     # add wait parameter to plug in to functions for these below
-    def MoveSmallMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
-        self.left.run_angle(speed, degrees, wait=wait)
+    def MoveRightMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        self.driveBase.use_gyro(True)
+        self.rightBig.run_angle(speed, degrees, wait=wait)
+        self.driveBase.use_gyro(False)
     
-    def MoveBigMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
-        self.right.run_angle(speed, degrees, wait=wait)
+    def MoveLeftMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        self.driveBase.use_gyro(True)
+        self.leftBig.run_angle(speed, degrees, wait=wait)
+        self.driveBase.use_gyro(False)
     
-    def MoveSmallMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
-        self.left.run_until_stalled(speed, duty_limit=duty_limit)
+    def MoveRightMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+        self.rightBig.run_until_stalled(speed, duty_limit=duty_limit)
 
-    def MoveBigMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
-        self.right.run_until_stalled(speed, duty_limit=duty_limit)
+    def MoveLeftMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
+        self.leftBig.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True):
         self.driveBase.use_gyro(True)
@@ -108,8 +112,8 @@ class Robot:
     def CleanMotors(self):
         self.leftDrive.run_angle(999, 1000, wait=False)
         self.rightDrive.run_angle(999, 1000, wait=False)
-        self.right.run_angle(999, 1000, wait=False)
-        self.left.run_angle(999, 1000)
+        self.leftBig.run_angle(999, 1000, wait=False)
+        self.rightBig.run_angle(999, 1000)
 
 class Animations:
     running = [
