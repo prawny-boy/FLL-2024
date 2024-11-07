@@ -5,8 +5,8 @@ from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 
 # Constants
-DRIVEBASE_WHEEL_DIAMETER = 56
-DRIVEBASE_AXLE_TRACK = 105 # confirm this value
+DRIVEBASE_WHEEL_DIAMETER = 88
+DRIVEBASE_AXLE_TRACK = 115 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
 MENU_OPTIONS = ["1", "2", "3", "4", '5', '6', "7", '8', "C"] 
@@ -65,9 +65,11 @@ class Robot:
     def MoveLeftMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
         self.leftBig.run_until_stalled(speed, duty_limit=duty_limit)
     
-    def DriveForDistance(self, distance:float, wait:bool = True):
+    def DriveForDistance(self, distance:float, wait:bool = True, speed=ROBOT_SPEED):
         self.driveBase.use_gyro(True)
+        self.driveBase.settings(straight_speed=speed)
         self.driveBase.straight(distance, wait=wait)
+        self.driveBase.settings(straight_speed=ROBOT_SPEED)
         self.driveBase.use_gyro(False)
     
     def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_SPEED):
@@ -219,131 +221,53 @@ class Missions:
     def CoralReef(r:Robot):
         pass
     
-    # Mission 4: Scuba Diver
-    class ScubaDiver:
-        def Pickup(r:Robot):
-            pass
-        
-        def Delivery(r:Robot):
-            pass
-        
-    # Mission 5: Angler Fish
+    def ScubaDiver(r:Robot):
+        pass
+    
+    def ResearchShip(r:Robot):
+        # add putting the things into the research ship here
+        pass
+
     def AnglerFish(r:Robot):
-        pass
-    
-    # Mission 6: Raise the Mast
-    def RaiseMast(r:Robot):
-        pass
-    
-    # Mission 7: Kraken's Treasure
-    def Treasure(r:Robot):
-        pass
-    
-    # Mission 8: Artificial Habitat
-    class ArtificialHabitat:
-        def Part1(r:Robot):
-            pass
-        
-        def Part2(r:Robot):
-            pass
-    
-    # Mission 9: Unexpected Encounter
-    def Octopus(r:Robot):
-        pass
-    
-    # Mission 10: Send Over the Submersible
-    def Submersible(r:Robot):
-        pass
-    
-    # Mission 11: Sonar Discovery
-    class SonarDiscovery:
-        def Whale1(r:Robot):
-            pass
-        
-        def Whale2(r:Robot):
-            pass
-        
-    # Mission 12: Feed the Whale
-    def FeedWhale(r:Robot):
-        pass
-    
-    # Mission 13: Change Shipping Lanes
-    def ShippingLanes(r:Robot):
-        pass
-    
-    # Mission 14: Sample Collection
-    class Samples:
-        def Seabed(r:Robot):
-            pass
-        
-        def Kelp(r:Robot):
-            pass
-        
-        def Water(r:Robot):
-            pass
-        
-        def Trident(r:Robot):
-            pass
-        
-        def Delivery(r:Robot):
-            pass
-        
-    # Mission 15: Research Vessel
-    def ResearchVessel(r:Robot):
-        pass
-
-# Runs
-class Run:
-    def One(r:Robot):
-        # Home location
-        r.DriveForDistance(345)
-        r.TurnInPlace(43)
-        # Boat mission
-        Missions.ShippingLanes(r)
-        r.DriveForDistance(-50)
-        r.MoveSmallMotorInDegrees(90, 500)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(290)
-        r.TurnInPlace(-95)
-        r.DriveForDistance(-70)
-        # Seaweed mission
-        Missions.Seaweed(r)
-        r.TurnInPlace(-90)
-        r.DriveForDistance(700)
-        # Home location
-
-    def Two(r:Robot):
-        # Home location
-        r.TurnInPlace(-45)
-        r.DriveForDistance(130) 
-        r.TurnInPlace(45)
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-90, 500)
-        r.DriveForDistance(770)
-        # Whales mission
-        Missions.Whales(r, 1)
-        r.TurnInPlace(-20)
-        r.DriveForDistance(-700)
-        # Home location
-        
-    def Three(r:Robot):
-        Missions.Octopus(r)
-
-    def Four(r:Robot):
-        # Home location
-        r.TurnInPlace(-55)
-        # Anglerfish Mission
-        Missions.AnglerFish(r)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(-180)
-        # Octopus in the circle
-        r.MoveBigMotorInDegrees(-90)
-        # Sample to Away location
-        r.TurnInPlace(15)
-        r.DriveForDistance(340)
-        r.TurnInPlace(-60)
         r.DriveForDistance(1000)
-        # Away Location
+
+    def Submarine(r:Robot):
+        pass
+
+# run functions
+class Run:
+    def Run1(r:Robot):
+        r.TurnInPlace(30)
+        r.DriveForDistance(770)
+        r.TurnInPlace(70)
+        r.DriveForDistance(1000)
+        r.TurnInPlace(45)
+        r.DriveForDistance(800)
+
+    def Run2(r:Robot):
+        pass
+        
+    def Run3(r:Robot):
+        pass
+
+    def Run4(r:Robot):
+        r.TurnInPlace(30)
+        r.DriveForDistance(490)
+        r.TurnInPlace(60)
+        r.DriveForDistance(200)
+        wait(500)
+        r.DriveForDistance(-20)
+        r.DriveForDistance(50)
+        # wait(500)
+        r.DriveForDistance(-100, speed=150)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(200)
+        r.TurnInPlace(45)
+        r.DriveForDistance(-370, speed=300)
+        r.DriveForDistance(60)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(-1000)
+
 
     def Five(r:Robot):
         # Away Location
