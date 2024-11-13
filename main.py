@@ -221,123 +221,104 @@ class Missions:
     def CoralReef(r:Robot):
         pass
     
-    def ScubaDiver(r:Robot):
+    # Mission 4: Scuba Diver
+    class ScubaDiver:
+        def Pickup(r:Robot):
+            pass
+        
+        def Delivery(r:Robot):
+            pass
+        
+    # Mission 5: Angler Fish
+    def AnglerFish(r:Robot):
         pass
     
-    def ResearchShip(r:Robot):
-        # add putting the things into the research ship here
+    # Mission 6: Raise the Mast
+    def RaiseMast(r:Robot):
+        pass
+    
+    # Mission 7: Kraken's Treasure
+    def Treasure(r:Robot):
+        pass
+    
+    # Mission 8: Artificial Habitat
+    class ArtificialHabitat:
+        def Part1(r:Robot):
+            pass
+        
+        def Part2(r:Robot):
+            pass
+    
+    # Mission 9: Unexpected Encounter
+    def Octopus(r:Robot):
+        pass
+    
+    # Mission 10: Send Over the Submersible
+    def Submersible(r:Robot):
+        pass
+    
+    # Mission 11: Sonar Discovery
+    class SonarDiscovery:
+        def Whale1(r:Robot):
+            pass
+        
+        def Whale2(r:Robot):
+            pass
+        
+    # Mission 12: Feed the Whale
+    def FeedWhale(r:Robot):
+        pass
+    
+    # Mission 13: Change Shipping Lanes
+    def ShippingLanes(r:Robot):
+        pass
+    
+    # Mission 14: Sample Collection
+    class Samples:
+        def Seabed(r:Robot):
+            pass
+        
+        def Kelp(r:Robot):
+            pass
+        
+        def Water(r:Robot):
+            pass
+        
+        def Trident(r:Robot):
+            pass
+        
+        def Delivery(r:Robot):
+            pass
+        
+    # Mission 15: Research Vessel
+    def ResearchVessel(r:Robot):
         pass
 
-    def AnglerFish(r:Robot):
-        r.DriveForDistance(1000)
-
-    def Submarine(r:Robot):
-        pass
-
-# run functions
+# Runs
 class Run:
-    def Run1(r:Robot):
-        r.TurnInPlace(30)
-        r.DriveForDistance(770)
-        r.TurnInPlace(70)
-        r.DriveForDistance(1000)
-        r.TurnInPlace(45)
-        r.DriveForDistance(800)
+    def One(r:Robot):
+        pass
 
-    def Run2(r:Robot):
+    def Two(r:Robot):
         pass
         
-    def Run3(r:Robot):
+    def Three(r:Robot):
         pass
 
-    def Run4(r:Robot):
-        r.TurnInPlace(30)
-        r.DriveForDistance(490)
-        r.TurnInPlace(60)
-        r.DriveForDistance(200)
-        wait(500)
-        r.DriveForDistance(-20)
-        r.DriveForDistance(50)
-        # wait(500)
-        r.DriveForDistance(-100, speed=150)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(200)
-        r.TurnInPlace(45)
-        r.DriveForDistance(-370, speed=300)
-        r.DriveForDistance(60)
-        r.TurnInPlace(-50)
-        r.DriveForDistance(-1000)
-
+    def Four(r:Robot):
+        pass
 
     def Five(r:Robot):
-        # Away Location
-        r.TurnInPlace(40)
-        r.DriveForDistance(110)
-        r.MoveBigMotorUntilStalled(-500)
-        r.MoveBigMotorInDegrees(20)
-        r.MoveSmallMotorUntilStalled(-500)
-        r.MoveSmallMotorInDegrees(20)
-        r.TurnInPlace(-40)
-        r.DriveForDistance(450)
-        r.MoveSmallMotorInDegrees(90)
-        r.DriveForDistance(30)
-        r.MoveBigMotorInDegrees(75)
-        
-        # Coral Nursery Mission
-        # Missions.CoralNursery(r)
-        r.DriveForDistance(-800)
-        # Shark Mission
-        Missions.Shark(r)
-        r.DriveForDistance(-1000)
-        # Away Location
+        pass
 
     def Six(r:Robot):
-        # Away Location
-        r.DriveForDistance(550)
-        r.DriveForDistance(-550)
-        # Coral Reef Mission
-        # Missions.CoralReef(r)
-
-        # Away Location
+        pass
 
     def Seven(r:Robot):
-        # Away Location
-        r.TurnInPlace(35)
-        r.DriveForDistance(350)
-        r.MoveSmallMotorUntilStalled(-500)
-        r.MoveSmallMotorInDegrees(90)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(450)
-        r.TurnInPlace(-40)
-        r.DriveForDistance(15)
-        r.MoveSmallMotorInDegrees(-100, 900)
-        wait(500)
-        r.MoveSmallMotorInDegrees(50)
-        r.DriveForDistance(-100)
-        r.MoveSmallMotorInDegrees(30)
-        r.DriveForDistance(100)
-        r.TurnInPlace(-50)
-        r.DriveForDistance(40)
-        r.MoveSmallMotorInDegrees(100)
-        r.DriveForDistance(-140)
-        r.TurnInPlace(-70)
-        r.DriveForDistance(1000)
-        # Away Location
+        pass
 
     def Eight(r:Robot):
-        # Away Location
-        r.TurnInPlace(75)
-        r.DriveForDistance(1080)
-        r.MoveBigMotorInDegrees(-180)
-        r.DriveForDistance(40)
-        r.TurnInPlace(-50)
-        # Second Whale Mission
-        # Missions.Whales(r, 2)
-        r.DriveForDistance(450)
-        r.TurnInPlace(-95)
-        r.DriveForDistance(500)
-        # Submarine Mission
-        Missions.Submarine(r)
+        pass
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
