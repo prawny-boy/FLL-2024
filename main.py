@@ -44,24 +44,35 @@ class Robot:
         self.hub = PrimeHub(front_side=-Axis.Y)
         self.hub.system.set_stop_button(Button.BLUETOOTH)
     
+    def Battery(self, val:float):
+        return val + (val*(100-Rescale(self.hub.battery.voltage(), LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)))
+        
     # add wait parameter to plug in to functions for these below
     def MoveRightMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        degrees = Robot.Battery(degrees)
+        speed = Robot.Battery(speed)
         self.driveBase.use_gyro(True)
         self.rightBig.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
     def MoveLeftMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        degrees = Robot.Battery(degrees)
+        speed = Robot.Battery(speed)
         self.driveBase.use_gyro(True)
         self.leftBig.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
     def MoveRightMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+        speed = Robot.Battery(speed)
         self.rightBig.run_until_stalled(speed, duty_limit=duty_limit)
 
     def MoveLeftMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
+        speed = Robot.Battery(speed)
         self.leftBig.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True, speed=ROBOT_SPEED):
+        speed = Robot.Battery(speed)
+        distance = Robot.Battery(distance)
         self.driveBase.use_gyro(True)
         self.driveBase.settings(straight_speed=speed)
         self.driveBase.straight(distance, wait=wait)
@@ -69,11 +80,13 @@ class Robot:
         self.driveBase.use_gyro(False)
     
     def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_SPEED):
+        speed = Robot.Battery(speed)
         self.driveBase.drive(speed, 0)
         wait(milliseconds)
         self.driveBase.stop()
     
     def TurnInPlace(self, degrees:float, wait:bool=True):
+        degrees = Robot.Battery(degrees)
         self.driveBase.use_gyro(True)
         self.driveBase.turn(degrees, wait=wait)
         self.driveBase.use_gyro(False)
@@ -167,110 +180,190 @@ class Animations:
     ]
 
 class Missions:
-    # Sorted in order of what we are doing
-
-    def ShippingLanes(r:Robot):
-        pass
-    
-    def Seaweed(r:Robot):
-        pass
-
-    def Whales(r:Robot):
-        pass
-
-    def Octopus(r:Robot):
-        pass
-
-    def CrabBoxes(r:Robot):
-        pass
-
-    def CoralNursery(r:Robot):
-        pass
-
-    def Shark(r:Robot):
-        pass
-
+    """
+    Game missions
+    1. Coral Nursery
+        A. Hang Coral
+        B. 
+    2. Shark
+        A. Pickup Shark
+        B. Put Shark into the habitat
+    3. Coral Reef
+        A. Flip up the  coral
+    4. Scuba Diver
+        A. Pick up diver
+        B. Put diver onto coral reef
+    5. Anglerfish
+        A. Flick angler fish into the ship
+    6. Raise the mast
+    7. Kraken's treasure
+    8. Artificial habtat
+    9. Unexpected encounter
+    10. Send over the submersible
+    11. Sonar Discovery
+    12. Feed the whale
+    13. Change shipping lanes
+    14. Sample colletion
+        A. Kelp
+        B. Seabed
+        C. Water
+        D. Treasure Chest
+        E. Trident Parts
+    15. Research Vessel
+    """
+    # Mission 1: Coral Nursery
+    class CoralNursery:
+        def Hang(r:Robot):
+            pass
+        
+        def Buds(r:Robot):
+            pass
+    # Mission 2: Shark
+    class Shark:
+        def Pickup(r:Robot):
+            pass
+        
+        def Deliver(r:Robot):
+            pass
+        
+    # Mission 3: Coral Reef
     def CoralReef(r:Robot):
         pass
     
-    def ScubaDiver(r:Robot):
-        pass
-    
-    def ResearchShip(r:Robot):
-        pass
-
+    # Mission 4: Scuba Diver
+    class ScubaDiver:
+        def Pickup(r:Robot):
+            pass
+        
+        def Delivery(r:Robot):
+            pass
+        
+    # Mission 5: Angler Fish
     def AnglerFish(r:Robot):
         pass
+    
+    # Mission 6: Raise the Mast
+    def RaiseMast(r:Robot):
+        pass
+    
+    # Mission 7: Kraken's Treasure
+    def Treasure(r:Robot):
+        pass
+    
+    # Mission 8: Artificial Habitat
+    class ArtificialHabitat:
+        def Part1(r:Robot):
+            pass
+        
+        def Part2(r:Robot):
+            pass
+    
+    # Mission 9: Unexpected Encounter
+    def Octopus(r:Robot):
+        pass
+    
+    # Mission 10: Send Over the Submersible
+    def Submersible(r:Robot):
+        pass
+    
+    # Mission 11: Sonar Discovery
+    class SonarDiscovery:
+        def Whale1(r:Robot):
+            pass
+        
+        def Whale2(r:Robot):
+            pass
+        
+    # Mission 12: Feed the Whale
+    def FeedWhale(r:Robot):
+        pass
+    
+    # Mission 13: Change Shipping Lanes
+    def ShippingLanes(r:Robot):
+        pass
+    
+    # Mission 14: Sample Collection
+    class Samples:
+        def Seabed(r:Robot):
+            pass
+        
+        def Kelp(r:Robot):
+            pass
+        
+        def Water(r:Robot):
+            pass
+        
+        def Trident(r:Robot):
+            pass
+        
+        def Delivery(r:Robot):
+            pass
+        
+    # Mission 15: Research Vessel
+    def ResearchVessel(r:Robot):
+        pass
 
-    def Submarine(r:Robot):
-        pass 
+# Runs
+class Run:
+    def One(r:Robot):
+        # Away Location
+        r.DriveForDistance(30)
+        r.TurnInPlace(35)
+        r.DriveForDistance(650)
+        r.TurnInPlace(25)
+        r.DriveForDistance(250)
+        r.TurnInPlace(48)
+        r.DriveForDistance(1000)
+        r.TurnInPlace(20)
+        r.DriveForDistance(80)
+        r.DriveForDistance(-200)
+        r.TurnInPlace(45)
+        r.DriveForDistance(1000)
+        # Home Location
 
-# run functions
-def Run1(r:Robot):
+    def Two(r:Robot):
+        # Home Location
+        r.DriveForDistance(30)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(600)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(40)
+        r.DriveForDistance(380)
+        r.TurnInPlace(125)
+        r.MoveLeftMotorUntilStalled(-500)
+        r.DriveForDistance(120)
+        r.MoveLeftMotorInDegrees(90, 900)
+        r.TurnInPlace(45)
+        r.DriveForDistance(700)
+        # Home Location
+        
+    def Three(r:Robot):
+        pass
+
+    def Four(r:Robot):
+        # Away Location
+        r.TurnInPlace(30)
+        r.DriveForDistance(490)
+        r.TurnInPlace(60)
+        r.DriveForDistance(200)
+        wait(500)
+        r.DriveForDistance(-200)
+        r.DriveForDistance(60)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(-1000)
     # Away Location
-    r.DriveForDistance(30)
-    r.TurnInPlace(35)
-    r.DriveForDistance(650)
-    r.TurnInPlace(25)
-    r.DriveForDistance(250)
-    r.TurnInPlace(48)
-    r.DriveForDistance(1000)
-    r.TurnInPlace(20)
-    r.DriveForDistance(80)
-    r.DriveForDistance(-200)
-    r.TurnInPlace(45)
-    r.DriveForDistance(1000)
-    # Home Location
 
-def Run2(r:Robot):
-    # Home Location
-    r.DriveForDistance(30)
-    r.TurnInPlace(-50)
-    r.DriveForDistance(600)
-    r.DriveForDistance(-150)
-    r.TurnInPlace(40)
-    r.DriveForDistance(380)
-    r.TurnInPlace(125)
-    r.MoveLeftMotorUntilStalled(-500)
-    r.DriveForDistance(120)
-    r.MoveLeftMotorInDegrees(90, 900)
-    r.TurnInPlace(45)
-    r.DriveForDistance(700)
-    # Home Location
+    def Five(r:Robot):
+        pass
 
-def Run3(r:Robot):
-    # Home Location
-    pass
-    # Away Location
+    def Six(r:Robot):
+        pass
 
-def Run4(r:Robot):
-    # Away Location
-    r.TurnInPlace(30)
-    r.DriveForDistance(490)
-    r.TurnInPlace(60)
-    r.DriveForDistance(200)
-    wait(500)
-    r.DriveForDistance(-200)
-    r.DriveForDistance(60)
-    r.TurnInPlace(-50)
-    r.DriveForDistance(-1000)
-    # Away Location
+    def Seven(r:Robot):
+        pass
 
-def Run5(r:Robot):
-    # Away Location
-    pass
-    # Away Location
-
-def Run6(r:Robot):
-    # Away Location
-    pass
-    # End
-
-def Run7(r:Robot):
-    pass
-
-def Run8(r:Robot):
-    pass
+    def Eight(r:Robot):
+        pass
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
@@ -290,22 +383,22 @@ def RunMission(r:Robot, selected):
     print(f"Running #{selected}...")
     start_time = stopwatch.time()
     if selected == "1":
-        Run1(r)
+        Run.One(r)
         all_start_time = stopwatch.time()
     elif selected == "2":
-        Run2(r)
+        Run.Two(r)
     elif selected == "3":
-        Run3(r)
+        Run.Three(r)
     elif selected == "4":
-        Run4(r)
+        Run.Four(r)
     elif selected == "5":
-        Run5(r)
+        Run.Five(r)
     elif selected == "6":
-        Run6(r)
+        Run.Six(r)
     elif selected == "7":
-        Run7(r)
+        Run.Seven(r)
     elif selected == '8':
-        Run8(r)
+        Run.Eight(r)
         print("All missions complete.\n---------------------------------------\nRESULTS:")
         try:
             alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
