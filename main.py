@@ -306,125 +306,28 @@ class Missions:
 # Runs
 class Run:
     def One(r:Robot):
-        # Home location
-        r.DriveForDistance(345)
-        r.TurnInPlace(43)
-        # Boat mission
-        Missions.ShippingLanes(r)
-        r.DriveForDistance(-50)
-        r.MoveSmallMotorInDegrees(90, 500)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(290)
-        r.TurnInPlace(-95)
-        r.DriveForDistance(-70)
-        # Seaweed mission
-        Missions.Seaweed(r)
-        r.TurnInPlace(-90)
-        r.DriveForDistance(700)
-        # Home location
+        pass
 
     def Two(r:Robot):
-        # Home location
-        r.TurnInPlace(-45)
-        r.DriveForDistance(130) 
-        r.TurnInPlace(45)
-        r.MoveSmallMotorUntilStalled(500)
-        r.MoveSmallMotorInDegrees(-90, 500)
-        r.DriveForDistance(770)
-        # Whales mission
-        Missions.Whales(r, 1)
-        r.TurnInPlace(-20)
-        r.DriveForDistance(-700)
-        # Home location
+        pass
         
     def Three(r:Robot):
-        Missions.Octopus(r)
+        pass
 
     def Four(r:Robot):
-        # Home location
-        r.TurnInPlace(-55)
-        # Anglerfish Mission
-        Missions.AnglerFish(r)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(-180)
-        # Octopus in the circle
-        r.MoveBigMotorInDegrees(-90)
-        # Sample to Away location
-        r.TurnInPlace(15)
-        r.DriveForDistance(340)
-        r.TurnInPlace(-60)
-        r.DriveForDistance(1000)
-        # Away Location
+        pass
 
     def Five(r:Robot):
-        # Away Location
-        r.TurnInPlace(40)
-        r.DriveForDistance(110)
-        r.MoveBigMotorUntilStalled(-500)
-        r.MoveBigMotorInDegrees(20)
-        r.MoveSmallMotorUntilStalled(-500)
-        r.MoveSmallMotorInDegrees(20)
-        r.TurnInPlace(-40)
-        r.DriveForDistance(450)
-        r.MoveSmallMotorInDegrees(90)
-        r.DriveForDistance(30)
-        r.MoveBigMotorInDegrees(75)
-        
-        # Coral Nursery Mission
-        # Missions.CoralNursery(r)
-        r.DriveForDistance(-800)
-        # Shark Mission
-        Missions.Shark(r)
-        r.DriveForDistance(-1000)
-        # Away Location
+        pass
 
     def Six(r:Robot):
-        # Away Location
-        r.DriveForDistance(550)
-        r.DriveForDistance(-550)
-        # Coral Reef Mission
-        # Missions.CoralReef(r)
-
-        # Away Location
+        pass
 
     def Seven(r:Robot):
-        # Away Location
-        r.TurnInPlace(35)
-        r.DriveForDistance(350)
-        r.MoveSmallMotorUntilStalled(-500)
-        r.MoveSmallMotorInDegrees(90)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(450)
-        r.TurnInPlace(-40)
-        r.DriveForDistance(15)
-        r.MoveSmallMotorInDegrees(-100, 900)
-        wait(500)
-        r.MoveSmallMotorInDegrees(50)
-        r.DriveForDistance(-100)
-        r.MoveSmallMotorInDegrees(30)
-        r.DriveForDistance(100)
-        r.TurnInPlace(-50)
-        r.DriveForDistance(40)
-        r.MoveSmallMotorInDegrees(100)
-        r.DriveForDistance(-140)
-        r.TurnInPlace(-70)
-        r.DriveForDistance(1000)
-        # Away Location
+        pass
 
     def Eight(r:Robot):
-        # Away Location
-        r.TurnInPlace(75)
-        r.DriveForDistance(1080)
-        r.MoveBigMotorInDegrees(-180)
-        r.DriveForDistance(40)
-        r.TurnInPlace(-50)
-        # Second Whale Mission
-        # Missions.Whales(r, 2)
-        r.DriveForDistance(450)
-        r.TurnInPlace(-95)
-        r.DriveForDistance(500)
-        # Submarine Mission
-        Missions.Submarine(r)
+        pass
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
