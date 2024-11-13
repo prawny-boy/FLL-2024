@@ -9,11 +9,11 @@ DRIVEBASE_WHEEL_DIAMETER = 88
 DRIVEBASE_AXLE_TRACK = 115 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
-MENU_OPTIONS = ["1", "2", "3", "4", '5', '6', "7", '8', "C"] 
-ROBOT_SPEED = 500
-ROBOT_ACCELERATION = 500
-ROBOT_TURN_RATE = 500
-ROBOT_TURN_ACCELERATION = 500
+MENU_OPTIONS = ["1", "2", "3", "4", "7", '8', "C"]
+ROBOT_SPEED = 900
+ROBOT_ACCELERATION = 900
+ROBOT_TURN_RATE = 900
+ROBOT_TURN_ACCELERATION = 900
 ROBOT_MAX_TORQUE = 1000
 
 # Variables
@@ -22,11 +22,11 @@ battery_status_light = Color.GREEN
 # Define the Robot
 class Robot:
     def __init__(self):
-        # DRIVE MOTORS: Left (A ) Right (B) Big (E) Small (F)
+        # DRIVE MOTORS: Left () Right () Big () Small ()
         self.leftDrive = Motor(Port.F, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B)
-        self.rightBig = Motor(Port.D)
-        self.leftBig = Motor(Port.C)
+        self.rightBig = Motor(Port.C)
+        self.leftBig = Motor(Port.D)
 
         # Defines the drivebase
         self.driveBase = DriveBase(self.leftDrive, self.rightDrive, DRIVEBASE_WHEEL_DIAMETER, DRIVEBASE_AXLE_TRACK)
@@ -306,16 +306,52 @@ class Missions:
 # Runs
 class Run:
     def One(r:Robot):
-        pass
+        # Away Location
+        r.DriveForDistance(30)
+        r.TurnInPlace(35)
+        r.DriveForDistance(650)
+        r.TurnInPlace(25)
+        r.DriveForDistance(250)
+        r.TurnInPlace(48)
+        r.DriveForDistance(1000)
+        r.TurnInPlace(20)
+        r.DriveForDistance(80)
+        r.DriveForDistance(-200)
+        r.TurnInPlace(45)
+        r.DriveForDistance(1000)
+        # Home Location
 
     def Two(r:Robot):
-        pass
+        # Home Location
+        r.DriveForDistance(30)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(600)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(40)
+        r.DriveForDistance(380)
+        r.TurnInPlace(125)
+        r.MoveLeftMotorUntilStalled(-500)
+        r.DriveForDistance(120)
+        r.MoveLeftMotorInDegrees(90, 900)
+        r.TurnInPlace(45)
+        r.DriveForDistance(700)
+        # Home Location
         
     def Three(r:Robot):
         pass
 
     def Four(r:Robot):
-        pass
+        # Away Location
+        r.TurnInPlace(30)
+        r.DriveForDistance(490)
+        r.TurnInPlace(60)
+        r.DriveForDistance(200)
+        wait(500)
+        r.DriveForDistance(-200)
+        r.DriveForDistance(60)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(-1000)
+    # Away Location
 
     def Five(r:Robot):
         pass
