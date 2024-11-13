@@ -9,11 +9,11 @@ DRIVEBASE_WHEEL_DIAMETER = 88
 DRIVEBASE_AXLE_TRACK = 115 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
-MENU_OPTIONS = ["1", "2", "3", "4", '5', '6', "7", '8', "C"] 
-ROBOT_SPEED = 500
-ROBOT_ACCELERATION = 500
-ROBOT_TURN_RATE = 500
-ROBOT_TURN_ACCELERATION = 500
+MENU_OPTIONS = ["1", "2", "3", "4", "7", '8', "C"]
+ROBOT_SPEED = 900
+ROBOT_ACCELERATION = 900
+ROBOT_TURN_RATE = 900
+ROBOT_TURN_ACCELERATION = 900
 ROBOT_MAX_TORQUE = 1000
 ROBOT_DUTY_LIMIT = 50
 
@@ -23,11 +23,11 @@ battery_status_light = Color.GREEN
 # Define the Robot
 class Robot:
     def __init__(self):
-        # DRIVE MOTORS: Left (A ) Right (B) Big (E) Small (F)
+        # DRIVE MOTORS: Left () Right () Big () Small ()
         self.leftDrive = Motor(Port.F, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B)
-        self.rightBig = Motor(Port.D)
-        self.leftBig = Motor(Port.C)
+        self.rightBig = Motor(Port.C)
+        self.leftBig = Motor(Port.D)
 
         # Defines the drivebase
         self.driveBase = DriveBase(self.leftDrive, self.rightDrive, DRIVEBASE_WHEEL_DIAMETER, DRIVEBASE_AXLE_TRACK)
@@ -171,154 +171,110 @@ class Animations:
     ]
 
 class Missions:
-    """
-    Game missions
-    1. Coral Nursery
-        A. Hang Coral
-        B. 
-    2. Shark
-        A. Pickup Shark
-        B. Put Shark into the habitat
-    3. Coral Reef
-        A. Flip up the  coral
-    4. Scuba Diver
-        A. Pick up diver
-        B. Put diver onto coral reef
-    5. Anglerfish
-        A. Flick angler fish into the ship
-    6. Raise the mast
-    7. Kraken's treasure
-    8. Artificial habtat
-    9. Unexpected encounter
-    10. Send over the submersible
-    11. Sonar Discovery
-    12. Feed the whale
-    13. Change shipping lanes
-    14. Sample colletion
-        A. Kelp
-        B. Seabed
-        C. Water
-        D. Treasure Chest
-        E. Trident Parts
-    15. Research Vessel
-    """
-    # Mission 1: Coral Nursery
-    class CoralNursery:
-        def Hang(r:Robot):
-            pass
-        
-        def Buds(r:Robot):
-            pass
-    # Mission 2: Shark
-    class Shark:
-        def Pickup(r:Robot):
-            pass
-        
-        def Deliver(r:Robot):
-            pass
-        
-    # Mission 3: Coral Reef
-    def CoralReef(r:Robot):
-        pass
-    
-    # Mission 4: Scuba Diver
-    class ScubaDiver:
-        def Pickup(r:Robot):
-            pass
-        
-        def Delivery(r:Robot):
-            pass
-        
-    # Mission 5: Angler Fish
-    def AnglerFish(r:Robot):
-        pass
-    
-    # Mission 6: Raise the Mast
-    def RaiseMast(r:Robot):
-        pass
-    
-    # Mission 7: Kraken's Treasure
-    def Treasure(r:Robot):
-        pass
-    
-    # Mission 8: Artificial Habitat
-    class ArtificialHabitat:
-        def Part1(r:Robot):
-            pass
-        
-        def Part2(r:Robot):
-            pass
-    
-    # Mission 9: Unexpected Encounter
-    def Octopus(r:Robot):
-        pass
-    
-    # Mission 10: Send Over the Submersible
-    def Submersible(r:Robot):
-        pass
-    
-    # Mission 11: Sonar Discovery
-    class SonarDiscovery:
-        def Whale1(r:Robot):
-            pass
-        
-        def Whale2(r:Robot):
-            pass
-        
-    # Mission 12: Feed the Whale
-    def FeedWhale(r:Robot):
-        pass
-    
-    # Mission 13: Change Shipping Lanes
+    # Sorted in order of what we are doing
+
     def ShippingLanes(r:Robot):
         pass
     
-    # Mission 14: Sample Collection
-    class Samples:
-        def Seabed(r:Robot):
-            pass
-        
-        def Kelp(r:Robot):
-            pass
-        
-        def Water(r:Robot):
-            pass
-        
-        def Trident(r:Robot):
-            pass
-        
-        def Delivery(r:Robot):
-            pass
-        
-    # Mission 15: Research Vessel
-    def ResearchVessel(r:Robot):
+    def Seaweed(r:Robot):
         pass
 
-# Runs
-class Run:
-    def One(r:Robot):
+    def Whales(r:Robot):
         pass
 
-    def Two(r:Robot):
-        pass
-        
-    def Three(r:Robot):
+    def Octopus(r:Robot):
         pass
 
-    def Four(r:Robot):
+    def CrabBoxes(r:Robot):
         pass
 
-    def Five(r:Robot):
+    def CoralNursery(r:Robot):
         pass
 
-    def Six(r:Robot):
+    def Shark(r:Robot):
         pass
 
-    def Seven(r:Robot):
+    def CoralReef(r:Robot):
+        pass
+    
+    def ScubaDiver(r:Robot):
+        pass
+    
+    def ResearchShip(r:Robot):
         pass
 
-    def Eight(r:Robot):
+    def AnglerFish(r:Robot):
         pass
+
+    def Submarine(r:Robot):
+        pass 
+
+# run functions
+def Run1(r:Robot):
+    # Away Location
+    r.DriveForDistance(30)
+    r.TurnInPlace(35)
+    r.DriveForDistance(650)
+    r.TurnInPlace(25)
+    r.DriveForDistance(250)
+    r.TurnInPlace(48)
+    r.DriveForDistance(1000)
+    r.TurnInPlace(20)
+    r.DriveForDistance(80)
+    r.DriveForDistance(-200)
+    r.TurnInPlace(45)
+    r.DriveForDistance(1000)
+    # Home Location
+
+def Run2(r:Robot):
+    # Home Location
+    r.DriveForDistance(30)
+    r.TurnInPlace(-50)
+    r.DriveForDistance(600)
+    r.DriveForDistance(-150)
+    r.TurnInPlace(40)
+    r.DriveForDistance(380)
+    r.TurnInPlace(125)
+    r.MoveLeftMotorUntilStalled(-500)
+    r.DriveForDistance(120)
+    r.MoveLeftMotorInDegrees(90, 900)
+    r.TurnInPlace(45)
+    r.DriveForDistance(700)
+    # Home Location
+
+def Run3(r:Robot):
+    # Home Location
+    pass
+    # Away Location
+
+def Run4(r:Robot):
+    # Away Location
+    r.TurnInPlace(30)
+    r.DriveForDistance(490)
+    r.TurnInPlace(60)
+    r.DriveForDistance(200)
+    wait(500)
+    r.DriveForDistance(-200)
+    r.DriveForDistance(60)
+    r.TurnInPlace(-50)
+    r.DriveForDistance(-1000)
+    # Away Location
+
+def Run5(r:Robot):
+    # Away Location
+    pass
+    # Away Location
+
+def Run6(r:Robot):
+    # Away Location
+    pass
+    # End
+
+def Run7(r:Robot):
+    pass
+
+def Run8(r:Robot):
+    pass
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
