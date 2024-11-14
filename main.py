@@ -50,22 +50,30 @@ class Robot:
         
     # add wait parameter to plug in to functions for these below
     def MoveRightMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        # degrees = Robot.Battery(degrees)
+        # speed = Robot.Battery(speed)
         self.driveBase.use_gyro(True)
         self.rightBig.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
     def MoveLeftMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+        # degrees = Robot.Battery(degrees)
+        # speed = Robot.Battery(speed)
         self.driveBase.use_gyro(True)
         self.leftBig.run_angle(speed, degrees, wait=wait)
         self.driveBase.use_gyro(False)
     
     def MoveRightMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+        # speed = Robot.Battery(speed)
         self.rightBig.run_until_stalled(speed, duty_limit=duty_limit)
 
     def MoveLeftMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
+        # speed = Robot.Battery(speed)
         self.leftBig.run_until_stalled(speed, duty_limit=duty_limit)
     
     def DriveForDistance(self, distance:float, wait:bool = True, speed=ROBOT_SPEED):
+        # speed = Robot.Battery(speed)
+        # distance = Robot.Battery(distance)
         self.driveBase.use_gyro(True)
         self.driveBase.settings(straight_speed=speed)
         self.driveBase.straight(distance, wait=wait)
@@ -73,11 +81,13 @@ class Robot:
         self.driveBase.use_gyro(False)
     
     def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_SPEED):
+        # speed = Robot.Battery(speed)
         self.driveBase.drive(speed, 0)
         wait(milliseconds)
         self.driveBase.stop()
     
     def TurnInPlace(self, degrees:float, wait:bool=True):
+        # degrees = Robot.Battery(degrees)
         self.driveBase.use_gyro(True)
         self.driveBase.turn(degrees, wait=wait)
         self.driveBase.use_gyro(False)
@@ -209,43 +219,42 @@ class Missions:
     def Submarine(r:Robot):
         pass 
 
-# run functions
-def Run1(r:Robot):
-    # Away Location
-    r.DriveForDistance(30)
-    r.TurnInPlace(35)
-    r.DriveForDistance(650)
-    r.TurnInPlace(25)
-    r.DriveForDistance(250)
-    r.TurnInPlace(48)
-    r.DriveForDistance(1000)
-    r.TurnInPlace(20)
-    r.DriveForDistance(80)
-    r.DriveForDistance(-200)
-    r.TurnInPlace(45)
-    r.DriveForDistance(1000)
-    # Home Location
+# Runs
+class Run:
+    def One(r:Robot):
+        # Away Location
+        r.DriveForDistance(30)
+        r.TurnInPlace(45)
+        r.DriveForDistance(330)
+        r.TurnInPlace(-33)
+        r.DriveForDistance(300)
+        r.TurnInPlace(40)
+        r.DriveForDistance(250)
+        r.TurnInPlace(40)
+        r.DriveForDistance(1100)
+        r.DriveForDistance(-100)
+        r.TurnInPlace(45)
+        r.DriveForDistance(1000)
+        # Home Location
 
-def Run2(r:Robot):
-    # Home Location
-    r.DriveForDistance(30)
-    r.TurnInPlace(-50)
-    r.DriveForDistance(600)
-    r.DriveForDistance(-150)
-    r.TurnInPlace(40)
-    r.DriveForDistance(380)
-    r.TurnInPlace(125)
-    r.MoveLeftMotorUntilStalled(-500)
-    r.DriveForDistance(120)
-    r.MoveLeftMotorInDegrees(90, 900)
-    r.TurnInPlace(45)
-    r.DriveForDistance(700)
-    # Home Location
-
-def Run3(r:Robot):
-    # Home Location
-    pass
-    # Away Location
+    def Two(r:Robot):
+        # Home Location
+        r.DriveForDistance(50)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(600)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(40)
+        r.DriveForDistance(430)
+        r.TurnInPlace(125)
+        r.MoveLeftMotorUntilStalled(-500)
+        r.DriveForDistance(120)
+        r.MoveLeftMotorInDegrees(90, 900)
+        r.TurnInPlace(45)
+        r.DriveForDistance(700)
+        # Home Location
+        
+    def Three(r:Robot):
+        pass
 
 def Run4(r:Robot):
     # Away Location
