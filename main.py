@@ -1,23 +1,33 @@
 from pybricks.pupdevices import Motor
-from pybricks.parameters import Port, Color, Axis, Direction, Button
-from pybricks.tools import wait, Matrix, StopWatch, hub_menu
+from pybricks.parameters import Port, Color, Axis, Direction, Button, Stop
+from pybricks.tools import wait as sleep, Matrix, StopWatch, hub_menu
 from pybricks.robotics import DriveBase
 from pybricks.hubs import PrimeHub
 
 # Constants
-DRIVEBASE_WHEEL_DIAMETER = 88
+DRIVEBASE_WHEEL_DIAMETER = 88 # 56 is small, 88 is big
 DRIVEBASE_AXLE_TRACK = 115 # confirm this value
 LOW_VOLTAGE = 7000
 HIGH_VOLTAGE = 8000
-MENU_OPTIONS = ["1", "2", "3", "4", "7", '8', "C"]
-ROBOT_SPEED = 900
-ROBOT_ACCELERATION = 900
-ROBOT_TURN_RATE = 900
-ROBOT_TURN_ACCELERATION = 900
+MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", '8', "C"]
+ROBOT_SPEED = 500
+ROBOT_ACCELERATION = 750
+ROBOT_TURN_RATE = 750
+ROBOT_TURN_ACCELERATION = 3000
 ROBOT_MAX_TORQUE = 1000
 
 # Variables
 battery_status_light = Color.GREEN
+turn_ratio = {
+    "1": 1.02,
+    "2": 1,
+    "3": 0.931,
+    "4": 1.05942,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 0.96
+}
 
 # Define the Robot
 class Robot:
@@ -44,63 +54,53 @@ class Robot:
         self.hub = PrimeHub(front_side=-Axis.Y)
         self.hub.system.set_stop_button(Button.BLUETOOTH)
     
-    def Battery(self, val:float):
+    def Battery(self, val:float): # Not used
         return val + (val*(100-Rescale(self.hub.battery.voltage(), LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)))
         
-    # add wait parameter to plug in to functions for these below
-    def MoveRightMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+    def MoveRightMotorInDegrees(self, degrees, speed=ROBOT_TURN_RATE, then=Stop.BRAKE, wait=True):
         # degrees = Robot.Battery(degrees)
         # speed = Robot.Battery(speed)
-        self.driveBase.use_gyro(True)
-        self.rightBig.run_angle(speed, degrees, wait=wait)
-        self.driveBase.use_gyro(False)
+        self.rightBig.run_angle(speed, degrees, then, wait)
     
-    def MoveLeftMotorInDegrees(self, degrees:float, speed:float=ROBOT_TURN_RATE, wait:bool = True):
+    def MoveLeftMotorInDegrees(self, degrees, speed=ROBOT_TURN_RATE, then=Stop.BRAKE, wait=True):
         # degrees = Robot.Battery(degrees)
         # speed = Robot.Battery(speed)
-        self.driveBase.use_gyro(True)
-        self.leftBig.run_angle(speed, degrees, wait=wait)
-        self.driveBase.use_gyro(False)
+        self.leftBig.run_angle(speed, degrees, then, wait)
     
-    def MoveRightMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=50):
+    def MoveRightMotorUntilStalled(self, speed=ROBOT_TURN_RATE, then=Stop.COAST, duty_limit=50):
         # speed = Robot.Battery(speed)
-        self.rightBig.run_until_stalled(speed, duty_limit=duty_limit)
+        self.rightBig.run_until_stalled(speed, then, duty_limit)
 
-    def MoveLeftMotorUntilStalled(self, speed:float=ROBOT_TURN_RATE, duty_limit:int=20):
+    def MoveLeftMotorUntilStalled(self, speed=ROBOT_TURN_RATE, then=Stop.COAST, duty_limit=20):
         # speed = Robot.Battery(speed)
-        self.leftBig.run_until_stalled(speed, duty_limit=duty_limit)
+        self.leftBig.run_until_stalled(speed, then, duty_limit)
     
-    def DriveForDistance(self, distance:float, wait:bool = True, speed=ROBOT_SPEED):
+    def DriveForDistance(self, distance, then=Stop.BRAKE, wait=True, speed=ROBOT_SPEED):
         # speed = Robot.Battery(speed)
         # distance = Robot.Battery(distance)
-        self.driveBase.use_gyro(True)
         self.driveBase.settings(straight_speed=speed)
-        self.driveBase.straight(distance, wait=wait)
+        self.driveBase.straight(distance, then, wait)
         self.driveBase.settings(straight_speed=ROBOT_SPEED)
-        self.driveBase.use_gyro(False)
     
-    def DriveForMilliseconds(self, milliseconds:float, speed:float=ROBOT_SPEED):
+    def DriveForMilliseconds(self, milliseconds, speed=ROBOT_SPEED):
         # speed = Robot.Battery(speed)
         self.driveBase.drive(speed, 0)
-        wait(milliseconds)
-        self.driveBase.stop()
+        sleep(milliseconds)
+        self.driveBase.brake()
     
-    def TurnInPlace(self, degrees:float, wait:bool=True):
-        # degrees = Robot.Battery(degrees)
-        self.driveBase.use_gyro(True)
-        self.driveBase.turn(degrees, wait=wait)
+    def TurnInPlace(self, degrees, then=Stop.BRAKE, wait=True, use_gyro=True):
+        global selected
+        if use_gyro:
+            self.driveBase.use_gyro(True)
+        self.driveBase.turn(degrees*turn_ratio[selected], then, wait)
         self.driveBase.use_gyro(False)
     
-    def Curve(self, radius:float, angle:float, wait:bool=True):
+    def Curve(self, radius, angle, then=Stop.BRAKE, wait=True):
         self.driveBase.use_gyro(True)
-        self.driveBase.curve(radius, angle, wait=wait)
+        self.driveBase.curve(radius, angle, then, wait)
         self.driveBase.use_gyro(False)
 
-    def DisplayNumber(self, number:int):
-        self.hub.display.off()
-        self.hub.display.number(number)
-
-    def StatusLight(self, color:Color):
+    def StatusLight(self, color):
         self.hub.light.off()
         self.hub.light.on(color)
     
@@ -285,10 +285,13 @@ class Missions:
     # Mission 14: Sample Collection
     class Samples:
         def Seabed(r:Robot):
-            pass
+            r.MoveLeftMotorInDegrees(-700)
+            r.DriveForDistance(60)
+            r.MoveLeftMotorInDegrees(700, wait=False)
         
         def Kelp(r:Robot):
-            pass
+            r.TurnInPlace(35)
+            r.DriveForDistance(50)
         
         def Water(r:Robot):
             pass
@@ -308,37 +311,78 @@ class Run:
     def One(r:Robot):
         # Away Location
         r.DriveForDistance(30)
+        r.TurnInPlace(60)
+        r.DriveForDistance(285)
+        r.TurnInPlace(-60)
+        r.DriveForDistance(380)
+        r.TurnInPlace(57)
+        r.DriveForDistance(290-15)
+        r.TurnInPlace(33)
+        r.DriveForDistance(235)
+        Missions.Samples.Seabed(r)
         r.TurnInPlace(45)
-        r.DriveForDistance(330)
-        r.TurnInPlace(-33)
-        r.DriveForDistance(300)
-        r.TurnInPlace(40)
-        r.DriveForDistance(250)
-        r.TurnInPlace(40)
-        r.DriveForDistance(1100)
-        r.DriveForDistance(-100)
+        sleep(1000)
+        r.DriveForDistance(100)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(550)
+        Missions.Samples.Kelp(r)
+        r.DriveForDistance(-75)
+        r.TurnInPlace(-10)
+        r.DriveForDistance(-180)
         r.TurnInPlace(45)
         r.DriveForDistance(1000)
         # Home Location
-
+ 
     def Two(r:Robot):
         # Home Location
+        r.DriveForDistance(295)
+        r.TurnInPlace(-49)
+        r.MoveRightMotorUntilStalled(-500, duty_limit=20)
+        r.MoveRightMotorInDegrees(20)
+        r.DriveForDistance(70)
+        r.TurnInPlace(30)
+        r.MoveRightMotorInDegrees(360)
+        r.MoveRightMotorInDegrees(100)
+        r.MoveRightMotorInDegrees(140, wait=False)
+        r.DriveForDistance(-40)
+        sleep(1000)
+        r.MoveRightMotorInDegrees(-90, wait=False)
+        r.DriveForDistance(30)
+        r.DriveForDistance(100)
         r.DriveForDistance(50)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(600)
-        r.DriveForDistance(-150)
-        r.TurnInPlace(40)
-        r.DriveForDistance(430)
-        r.TurnInPlace(125)
-        r.MoveLeftMotorUntilStalled(-500)
-        r.DriveForDistance(120)
-        r.MoveLeftMotorInDegrees(90, 900)
-        r.TurnInPlace(45)
-        r.DriveForDistance(700)
+        r.DriveForDistance(365)
+        r.MoveLeftMotorInDegrees(360*2)
+        r.DriveForDistance(-40)
+        r.DriveForDistance(-350)
+        r.TurnInPlace(-70)
+        r.DriveForDistance(450, speed=1500)
+        r.MoveRightMotorUntilStalled(-500, duty_limit=20)
+        r.DriveForDistance(-600)
         # Home Location
         
     def Three(r:Robot):
-        pass
+        r.DriveForDistance(300)
+        r.hub.imu.reset_heading(0)
+        r.TurnInPlace(-90)
+        print("Heading: " + str(r.hub.imu.heading()))
+        for _ in range(3):
+            r.TurnInPlace(-90-r.hub.imu.heading())
+        print("Fixed: " + str(r.hub.imu.heading()))
+        r.DriveForDistance(610)
+        r.TurnInPlace(45)
+        r.DriveForDistance(500)
+        r.DriveForDistance(-300)
+        r.TurnInPlace(45)
+        r.DriveForDistance(350)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(100)
+        r.DriveForDistance(-200)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(100)
+        r.MoveLeftMotorInDegrees(180)
+        r.DriveForDistance(600)
+        r.TurnInPlace(-90)
+        r.DriveForDistance(600)
 
     def Four(r:Robot):
         # Away Location
@@ -346,24 +390,28 @@ class Run:
         r.DriveForDistance(490)
         r.TurnInPlace(60)
         r.DriveForDistance(200)
-        wait(500)
+        sleep(500)
         r.DriveForDistance(-200)
         r.DriveForDistance(60)
         r.TurnInPlace(-50)
         r.DriveForDistance(-1000)
-    # Away Location
+        # Away Location
 
     def Five(r:Robot):
-        pass
+        r.MoveRightMotorInDegrees(360)
 
     def Six(r:Robot):
-        pass
+        r.DriveForDistance(400)
+        r.DriveForDistance(-400)
 
     def Seven(r:Robot):
-        pass
+        while True:
+            pass
+            if 0 != 0:
+                break
 
     def Eight(r:Robot):
-        pass
+        r.TurnInPlace(90)
 
 # Utility functions
 def Rescale(value, in_min, in_max, out_min, out_max):
@@ -395,10 +443,6 @@ def RunMission(r:Robot, selected):
         Run.Five(r)
     elif selected == "6":
         Run.Six(r)
-    elif selected == "7":
-        Run.Seven(r)
-    elif selected == '8':
-        Run.Eight(r)
         print("All missions complete.\n---------------------------------------\nRESULTS:")
         try:
             alltotaltime = round((stopwatch.time() - all_start_time)/ 1000, 1)
@@ -408,6 +452,10 @@ def RunMission(r:Robot, selected):
             print("---------------------------------------")
         except:
             print("You didn't run everything.")
+    elif selected == "7":
+        Run.Seven(r)
+    elif selected == '8':
+        Run.Eight(r)
     print(f"Done running #{selected}. Time: {round((stopwatch.time() - start_time)/ 1000, 1)} seconds.")
     r.StatusLight(battery_status_light)
     return selected
