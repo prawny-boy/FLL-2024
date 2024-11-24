@@ -21,12 +21,12 @@ battery_status_light = Color.GREEN
 turn_ratio = {
     "1": 1.02,
     "2": 1,
-    "3": 1.165,
+    "3": 0.9,
     "4": 1.05942,
     "5": 1,
     "6": 1,
     "7": 1,
-    "8": 1.165
+    "8": 0.9
 }
 
 # Define the Robot
@@ -89,6 +89,7 @@ class Robot:
         self.driveBase.settings(straight_speed=speed)
         self.driveBase.straight(distance, then, wait)
         self.driveBase.settings(straight_speed=ROBOT_SPEED)
+        sleep(250)
     
     def DriveForMilliseconds(self, milliseconds, speed=ROBOT_SPEED):
         # speed = Robot.Battery(speed)
@@ -96,12 +97,17 @@ class Robot:
         sleep(milliseconds)
         self.driveBase.brake()
     
-    def TurnInPlace(self, degrees, then=Stop.BRAKE, wait=True, use_gyro=True):
+    def TurnInPlace(self, degrees, then=Stop.BRAKE, wait=True, use_gyro=True, used_for_autoalign=False):
         global selected
+        if used_for_autoalign:
+            self.driveBase.settings(turn_acceleration=2100)
+            then = Stop.BRAKE
         if use_gyro:
             self.driveBase.use_gyro(True)
         self.driveBase.turn(degrees*turn_ratio[selected], then, wait)
         self.driveBase.use_gyro(False)
+        self.driveBase.settings(turn_acceleration=ROBOT_TURN_ACCELERATION)
+        sleep(250)
     
     def Curve(self, radius, angle, then=Stop.BRAKE, wait=True):
         self.driveBase.use_gyro(True)
@@ -268,7 +274,7 @@ class Missions:
     
     # Mission 9: Unexpected Encounter
     def Octopus(r:Robot):
-        pass
+        r.MoveLeftMotorInDegrees(180)
     
     # Mission 10: Send Over the Submersible
     def Submersible(r:Robot):
@@ -317,6 +323,14 @@ class Missions:
 # Runs
 class Run:
     def One(r:Robot):
+        """
+        Start Location:
+            Using the pink square with the long side
+        
+        What it does:
+            Sample Collection (x3)
+            Coral Collection (x3)
+        """
         # Away Location
         r.DriveForDistance(30)
         r.TurnInPlace(60)
@@ -342,11 +356,13 @@ class Run:
         # Home Location
  
     def Two(r:Robot):
-        """Run Two:
-        Start on second line from right
+        """
+        Start Location:
+            Start on second line from right
 
-        Args:
-            r (Robot): The robot
+        What It Does:
+            Whales
+            Squid
         """
         # Home Location
         r.DriveForDistance(10)
@@ -360,33 +376,63 @@ class Run:
         # Home Location
         
     def Three(r:Robot):
-        r.DriveForDistance(300)
+        """
+        Start Location:
+            Start flush against the corner
+
+        What It Does:
+            Do angler-fish
+            Drop off squid
+            Push flag down in send the submerisible
+        """
+        # Home Location
+        r.DriveForDistance(200)
         r.hub.imu.reset_heading(0)
-        r.TurnInPlace(-90)
+        r.TurnInPlace(-45)
+        r.DriveForDistance(200)
+        r.TurnInPlace(-45)
         print("Heading: " + str(r.hub.imu.heading()))
-        for _ in range(3):
-            r.TurnInPlace(-90-r.hub.imu.heading())
+        r.TurnInPlace(-90-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
         r.hub.imu.reset_heading(0)
-        r.DriveForDistance(565)
-        r.TurnInPlace(45)
+        r.DriveForDistance(440)
+        r.TurnInPlace(46)
         print("Heading: " + str(r.hub.imu.heading()))
-        for _ in range(3):
-            r.TurnInPlace(45-r.hub.imu.heading())
+        r.TurnInPlace(46-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
-        r.DriveForDistance(600)
-        r.DriveForDistance(-400)
-        r.TurnInPlace(30)
-        r.DriveForDistance(450)
-        r.DriveForDistance(-150)
-        r.TurnInPlace(-75)
-        r.DriveForDistance(150)
-        r.MoveLeftMotorInDegrees(180)
-        r.DriveForDistance(600)
-        r.TurnInPlace(-90)
-        r.DriveForDistance(600)
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(700)
+        r.TurnInPlace(-46)
+        print("Heading: " + str(r.hub.imu.heading()))
+        r.TurnInPlace(-46-r.hub.imu.heading(), used_for_autoalign=True)
+        print("Fixed: " + str(r.hub.imu.heading()))
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(-350)
+        r.TurnInPlace(46)
+        r.DriveForDistance(80)
+        r.DriveForDistance(-130)
+        r.TurnInPlace(-46)
+        print("Heading: " + str(r.hub.imu.heading()))
+        r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
+        print("Fixed: " + str(r.hub.imu.heading()))
+        r.DriveForDistance(80)
+        Missions.Octopus(r)
+        r.TurnInPlace(-15)
+        r.DriveForDistance(650)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(800)
+        # Away Location
 
     def Four(r:Robot):
+        """
+        Start Location:
+            Using the alignment tool
+        
+        What it does: 
+            Raise the mast
+            Kracken's Treasure
+            Coral Buds
+        """
         # Away Location
         r.TurnInPlace(30)
         r.DriveForDistance(490)
@@ -400,20 +446,63 @@ class Run:
         # Away Location
 
     def Five(r:Robot):
-        r.MoveRightMotorInDegrees(-360)
-        r.DriveForDistance(-100)
-        r.MoveRightMotorInDegrees(360)
+        """
+        Start Location:
+            One Purple Square Short Side Away from edge, flush against the back wall
         
+        What It Does:
+            Shark
+            Scuba Diver (Collecting and Placing)
+            Coral Reef
+        """
+        # Away Location
+        r.MoveRightMotorUntilStalled(500, duty_limit=20)
+        r.MoveLeftMotorUntilStalled(-500, duty_limit=25)
+        r.DriveForDistance(100)
+        r.TurnInPlace(30)
+        r.MoveRightMotorInDegrees(-45, wait=False)
+        r.MoveLeftMotorInDegrees(90, wait=False)
+        r.DriveForDistance(550)
+        r.TurnInPlace(-110)
+        r.MoveRightMotorInDegrees(-90, wait=False)
+        r.MoveLeftMotorInDegrees(90, wait=False)
+        r.DriveForDistance(200, speed=400)
+        r.MoveRightMotorInDegrees(-75, 2000, wait=False)
+        r.MoveLeftMotorInDegrees(-80, 300)
+        r.MoveRightMotorInDegrees(75, 2000, wait=False)
+        r.TurnInPlace(-35)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(90)
+        r.MoveRightMotorInDegrees(-60)
+        r.MoveLeftMotorInDegrees(50)
+        r.DriveForDistance(100)
+        r.TurnInPlace(-45)
+        r.MoveRightMotorInDegrees(-60, 2000)
+        r.TurnInPlace(30)
+        r.DriveForDistance(100)
+        r.MoveLeftMotorInDegrees(20)
+        r.DriveForDistance(-300, speed=1500)
+        r.TurnInPlace(-30)
+        r.DriveForDistance(-400, speed=1500)
+        # Away Location
 
     def Six(r:Robot):
+        """
+        Start Location:
+            From aligned in the corner
+        
+        What It Does:
+            Ship/Research Boat Pushing
+            Put samples into boat
+            Crabs mission (x3 Crabs)
+        """
+        # Away Location
         r.DriveForDistance(400)
         r.DriveForDistance(-400)
+        # End
 
     def Seven(r:Robot):
-        while True:
-            pass
-            if 0 != 0:
-                break
+        sleep(10000000000)
 
     def Eight(r:Robot):
         r.TurnInPlace(90)
@@ -485,5 +574,4 @@ while True:
     if selected != "C":
         last_run = RunMission(my_robot, selected)
     else:
-        if selected == 'C':
-            my_robot.CleanMotors()
+        my_robot.CleanMotors()
