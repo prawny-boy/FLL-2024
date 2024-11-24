@@ -8,7 +8,7 @@ from pybricks.hubs import PrimeHub
 DRIVEBASE_WHEEL_DIAMETER = 88 # 56 is small, 88 is big
 DRIVEBASE_AXLE_TRACK = 115 # confirm this value
 LOW_VOLTAGE = 7000
-HIGH_VOLTAGE = 8000
+HIGH_VOLTAGE = 8300
 MENU_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", '8', "C"]
 ROBOT_SPEED = 500
 ROBOT_ACCELERATION = 750
@@ -22,12 +22,12 @@ battery_status_light = Color.GREEN
 turn_ratio = {
     "1": 1.02,
     "2": 1,
-    "3": 0.931,
+    "3": 1.165,
     "4": 1.05942,
     "5": 1,
     "6": 1,
     "7": 1,
-    "8": 0.96
+    "8": 1.165
 }
 
 # Define the Robot
@@ -369,17 +369,20 @@ class Run:
         for _ in range(3):
             r.TurnInPlace(-90-r.hub.imu.heading())
         print("Fixed: " + str(r.hub.imu.heading()))
-        r.DriveForDistance(610)
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(565)
         r.TurnInPlace(45)
-        r.DriveForDistance(500)
-        r.DriveForDistance(-300)
-        r.TurnInPlace(45)
-        r.DriveForDistance(350)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(100)
-        r.DriveForDistance(-200)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(100)
+        print("Heading: " + str(r.hub.imu.heading()))
+        for _ in range(3):
+            r.TurnInPlace(45-r.hub.imu.heading())
+        print("Fixed: " + str(r.hub.imu.heading()))
+        r.DriveForDistance(600)
+        r.DriveForDistance(-400)
+        r.TurnInPlace(30)
+        r.DriveForDistance(450)
+        r.DriveForDistance(-150z)
+        r.TurnInPlace(-75)
+        r.DriveForDistance(150)
         r.MoveLeftMotorInDegrees(180)
         r.DriveForDistance(600)
         r.TurnInPlace(-90)
