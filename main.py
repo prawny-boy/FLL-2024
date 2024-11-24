@@ -77,6 +77,14 @@ class Robot:
         self.leftBig.run_until_stalled(speed, then, duty_limit)
     
     def DriveForDistance(self, distance, then=Stop.BRAKE, wait=True, speed=ROBOT_SPEED):
+        """Drives the robot forwards
+
+        Args:
+            distance (float): the distance in millimeters
+            then (_type_, optional): _description_. Defaults to Stop.BRAKE.
+            wait (bool, optional): _description_. Defaults to True.
+            speed (_type_, optional): _description_. Defaults to ROBOT_SPEED.
+        """
         # speed = Robot.Battery(speed)
         # distance = Robot.Battery(distance)
         self.driveBase.settings(straight_speed=speed)
@@ -335,30 +343,21 @@ class Run:
         # Home Location
  
     def Two(r:Robot):
+        """Run Two:
+        Start on second line from right
+
+        Args:
+            r (Robot): The robot
+        """
         # Home Location
-        r.DriveForDistance(295)
-        r.TurnInPlace(-49)
-        r.MoveRightMotorUntilStalled(-500, duty_limit=20)
-        r.MoveRightMotorInDegrees(20)
-        r.DriveForDistance(70)
-        r.TurnInPlace(30)
-        r.MoveRightMotorInDegrees(360)
-        r.MoveRightMotorInDegrees(100)
-        r.MoveRightMotorInDegrees(140, wait=False)
-        r.DriveForDistance(-40)
-        sleep(1000)
-        r.MoveRightMotorInDegrees(-90, wait=False)
-        r.DriveForDistance(30)
-        r.DriveForDistance(100)
-        r.DriveForDistance(50)
-        r.DriveForDistance(365)
-        r.MoveLeftMotorInDegrees(360*2)
-        r.DriveForDistance(-40)
-        r.DriveForDistance(-350)
-        r.TurnInPlace(-70)
-        r.DriveForDistance(450, speed=1500)
-        r.MoveRightMotorUntilStalled(-500, duty_limit=20)
-        r.DriveForDistance(-600)
+        r.DriveForDistance(10)
+        r.TurnInPlace(-35)
+        r.DriveForDistance(800)
+        r.MoveLeftMotorInDegrees(720)
+        r.DriveForDistance(-1000)
+        sleep(2000)
+        r.DriveForDistance(-600, speed=300)
+        r.DriveForDistance(600, speed=300)
         # Home Location
         
     def Three(r:Robot):
@@ -380,7 +379,7 @@ class Run:
         r.DriveForDistance(-400)
         r.TurnInPlace(30)
         r.DriveForDistance(450)
-        r.DriveForDistance(-150z)
+        r.DriveForDistance(-150)
         r.TurnInPlace(-75)
         r.DriveForDistance(150)
         r.MoveLeftMotorInDegrees(180)
@@ -402,7 +401,10 @@ class Run:
         # Away Location
 
     def Five(r:Robot):
+        r.MoveRightMotorInDegrees(-360)
+        r.DriveForDistance(-100)
         r.MoveRightMotorInDegrees(360)
+        
 
     def Six(r:Robot):
         r.DriveForDistance(400)
