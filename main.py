@@ -85,6 +85,14 @@ class Robot:
             wait (bool, optional): _description_. Defaults to True.
             speed (_type_, optional): _description_. Defaults to ROBOT_SPEED.
         """
+        """Drives the robot forwards
+
+        Args:
+            distance (float): the distance in millimeters
+            then (_type_, optional): _description_. Defaults to Stop.BRAKE.
+            wait (bool, optional): _description_. Defaults to True.
+            speed (_type_, optional): _description_. Defaults to ROBOT_SPEED.
+        """
         # speed = Robot.Battery(speed)
         # distance = Robot.Battery(distance)
         self.driveBase.settings(straight_speed=speed)
@@ -370,13 +378,13 @@ class Run:
             Squid
         """
         # Home Location
-        r.DriveForDistance(30)
-        r.TurnInPlace(-30)
-        r.DriveForDistance(770)
+        r.DriveForDistance(10)
+        r.TurnInPlace(-35)
+        r.DriveForDistance(800)
         r.MoveLeftMotorInDegrees(720)
         r.DriveForDistance(-1000)
         sleep(2000)
-        r.DriveForDistance(-400, speed=300)
+        r.DriveForDistance(-600, speed=300)
         r.DriveForDistance(600, speed=300)
         # Home Location
         
@@ -420,9 +428,14 @@ class Run:
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
-        r.DriveForDistance(95)
-        Missions.Octopus(r)
-        r.TurnInPlace(-15)
+        r.DriveForDistance(600)
+        r.DriveForDistance(-400)
+        r.TurnInPlace(30)
+        r.DriveForDistance(450)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(-75)
+        r.DriveForDistance(150)
+        r.MoveLeftMotorInDegrees(180)
         r.DriveForDistance(600)
         r.TurnInPlace(-90)
         r.DriveForDistance(800)
