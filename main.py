@@ -123,7 +123,7 @@ class Robot:
         # display battery of hub
         v = self.hub.battery.voltage()
         vPct = Rescale(v, LOW_VOLTAGE, HIGH_VOLTAGE, 1, 100)
-        print(f"Battery %: {vPct}, Voltage: {v}")
+        print(f"Battery %: {round(vPct, 1)}, Voltage: {v}")
         if vPct < 70:
             if vPct < 40:
                 print("EMERGENCY: BATTERY LOW!")
@@ -457,31 +457,30 @@ class Run:
             Coral Reef
         """
         # Away Location
-        r.MoveRightMotorUntilStalled(500, duty_limit=20)
-        r.MoveLeftMotorUntilStalled(-500, duty_limit=25)
-        r.DriveForDistance(100)
+        r.MoveRightMotorUntilStalled(-800, duty_limit=18)
+        r.MoveLeftMotorUntilStalled(1000)
         r.TurnInPlace(30)
-        r.MoveRightMotorInDegrees(-45, wait=False)
-        r.MoveLeftMotorInDegrees(90, wait=False)
-        r.DriveForDistance(550)
+        r.MoveRightMotorInDegrees(95, wait=False)
+        r.MoveLeftMotorInDegrees(-155, wait=False)
+        r.DriveForDistance(800)
         r.TurnInPlace(-110)
-        r.MoveRightMotorInDegrees(-90, wait=False)
-        r.MoveLeftMotorInDegrees(90, wait=False)
-        r.DriveForDistance(200, speed=400)
-        r.MoveRightMotorInDegrees(-75, 2000, wait=False)
-        r.MoveLeftMotorInDegrees(-80, 300)
+        r.MoveRightMotorInDegrees(90, wait=False)
+        r.MoveLeftMotorInDegrees(-90, wait=False)
+        r.DriveForDistance(200, speed=200)
         r.MoveRightMotorInDegrees(75, 2000, wait=False)
+        r.MoveLeftMotorInDegrees(80, 300)
+        r.MoveRightMotorInDegrees(-75, 2000, wait=False)
         r.TurnInPlace(-35)
         r.DriveForDistance(-150)
         r.TurnInPlace(90)
-        r.MoveRightMotorInDegrees(-60)
-        r.MoveLeftMotorInDegrees(50)
+        r.MoveRightMotorInDegrees(60)
+        r.MoveLeftMotorInDegrees(-50)
         r.DriveForDistance(100)
         r.TurnInPlace(-45)
-        r.MoveRightMotorInDegrees(-60, 2000)
+        r.MoveRightMotorInDegrees(60, 2000)
         r.TurnInPlace(30)
         r.DriveForDistance(100)
-        r.MoveLeftMotorInDegrees(20)
+        r.MoveLeftMotorInDegrees(-20)
         r.DriveForDistance(-300, speed=1500)
         r.TurnInPlace(-30)
         r.DriveForDistance(-400, speed=1500)
@@ -503,7 +502,7 @@ class Run:
         # End
 
     def Seven(r:Robot):
-        sleep(10000000000)
+        sleep(1000000)
 
     def Eight(r:Robot):
         r.TurnInPlace(90)
