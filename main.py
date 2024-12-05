@@ -20,14 +20,14 @@ ROBOT_DUTY_LIMIT = 50
 # Variables
 battery_status_light = Color.GREEN
 turn_ratio = {
-    "1": 1.02,
+    "1": 1.06,
     "2": 1,
     "3": 0.9,
     "4": 1.05942,
-    "5": 1,
+    "5": 0.94,
     "6": 1,
     "7": 1,
-    "8": 0.9
+    "8": 1.04
 }
 
 # Define the Robot
@@ -98,16 +98,17 @@ class Robot:
         sleep(milliseconds)
         self.driveBase.brake()
     
-    def TurnInPlace(self, degrees, then=Stop.BRAKE, wait=True, use_gyro=True, used_for_autoalign=False):
+    def TurnInPlace(self, degrees, speed=ROBOT_TURN_RATE, then=Stop.BRAKE, wait=True, use_gyro=True, used_for_autoalign=False):
         global selected
         if used_for_autoalign:
-            self.driveBase.settings(turn_acceleration=2100)
+            self.driveBase.settings(turn_acceleration=5000)
             then = Stop.BRAKE
         if use_gyro:
             self.driveBase.use_gyro(True)
+        self.driveBase.settings(turn_rate=speed)
         self.driveBase.turn(degrees*turn_ratio[selected], then, wait)
         self.driveBase.use_gyro(False)
-        self.driveBase.settings(turn_acceleration=ROBOT_TURN_ACCELERATION)
+        self.driveBase.settings(turn_acceleration=ROBOT_TURN_ACCELERATION, turn_rate=ROBOT_TURN_RATE)
         sleep(250)
     
     def Curve(self, radius, angle, then=Stop.BRAKE, wait=True):
@@ -300,12 +301,12 @@ class Missions:
     # Mission 14: Sample Collection
     class Samples:
         def Seabed(r:Robot):
-            r.MoveLeftMotorInDegrees(-700)
+            r.MoveLeftMotorInDegrees(-630)
             r.DriveForDistance(60)
-            r.MoveLeftMotorInDegrees(700, wait=False)
+            r.MoveLeftMotorInDegrees(650, wait=False)
         
         def Kelp(r:Robot):
-            r.TurnInPlace(35)
+            r.TurnInPlace(15)
             r.DriveForDistance(50)
         
         def Water(r:Robot):
@@ -333,25 +334,27 @@ class Run:
             Coral Collection (x3)
         """
         # Away Location
-        r.DriveForDistance(30)
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(20)
         r.TurnInPlace(60)
-        r.DriveForDistance(285)
+        r.DriveForDistance(290)
         r.TurnInPlace(-60)
-        r.DriveForDistance(380)
+        r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
+        r.DriveForDistance(370)
         r.TurnInPlace(57)
-        r.DriveForDistance(290-15)
-        r.TurnInPlace(33)
-        r.DriveForDistance(235)
+        r.DriveForDistance(285)
+        r.TurnInPlace(31.5)
+        r.DriveForDistance(270)
         Missions.Samples.Seabed(r)
-        r.TurnInPlace(45)
-        sleep(1000)
-        r.DriveForDistance(100)
-        r.TurnInPlace(-45)
-        r.DriveForDistance(550)
+        r.TurnInPlace(45, 30)
+        sleep(1500)
+        r.DriveForDistance(105)
+        r.TurnInPlace(-50)
+        r.DriveForDistance(545)
         Missions.Samples.Kelp(r)
-        r.DriveForDistance(-75)
+        r.DriveForDistance(-70)
         r.TurnInPlace(-10)
-        r.DriveForDistance(-180)
+        r.DriveForDistance(-175)
         r.TurnInPlace(45)
         r.DriveForDistance(1000)
         # Home Location
@@ -360,19 +363,20 @@ class Run:
         """
         Start Location:
             Start on second line from right
+            Second time set up close to edge
 
         What It Does:
             Whales
             Squid
         """
         # Home Location
-        r.DriveForDistance(10)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(800)
+        r.DriveForDistance(30)
+        r.TurnInPlace(-30)
+        r.DriveForDistance(770)
         r.MoveLeftMotorInDegrees(720)
         r.DriveForDistance(-1000)
         sleep(2000)
-        r.DriveForDistance(-600, speed=300)
+        r.DriveForDistance(-400, speed=300)
         r.DriveForDistance(600, speed=300)
         # Home Location
         
@@ -387,22 +391,22 @@ class Run:
             Push flag down in send the submerisible
         """
         # Home Location
-        r.DriveForDistance(200)
+        r.DriveForDistance(80)
         r.hub.imu.reset_heading(0)
         r.TurnInPlace(-45)
-        r.DriveForDistance(200)
+        r.DriveForDistance(172)
         r.TurnInPlace(-45)
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(-90-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
         r.hub.imu.reset_heading(0)
-        r.DriveForDistance(440)
-        r.TurnInPlace(46)
+        r.DriveForDistance(400)
+        r.TurnInPlace(45)
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(46-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
         r.hub.imu.reset_heading(0)
-        r.DriveForDistance(700)
+        r.DriveForDistance(675)
         r.TurnInPlace(-46)
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(-46-r.hub.imu.heading(), used_for_autoalign=True)
@@ -410,17 +414,17 @@ class Run:
         r.hub.imu.reset_heading(0)
         r.DriveForDistance(-350)
         r.TurnInPlace(46)
-        r.DriveForDistance(80)
-        r.DriveForDistance(-130)
+        r.DriveForDistance(140)
+        r.DriveForDistance(-110)
         r.TurnInPlace(-46)
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
-        r.DriveForDistance(80)
+        r.DriveForDistance(95)
         Missions.Octopus(r)
         r.TurnInPlace(-15)
-        r.DriveForDistance(650)
-        r.TurnInPlace(-50)
+        r.DriveForDistance(600)
+        r.TurnInPlace(-90)
         r.DriveForDistance(800)
         # Away Location
 
@@ -435,12 +439,20 @@ class Run:
             Coral Buds
         """
         # Away Location
-        r.TurnInPlace(30)
-        r.DriveForDistance(490)
-        r.TurnInPlace(60)
-        r.DriveForDistance(200)
+        r.rightBig.run(1500)
+        r.leftBig.run(1500)
+        r.hub.imu.reset_heading(0)
+        r.TurnInPlace(32.5)
+        r.TurnInPlace(32.5-r.hub.imu.heading(), used_for_autoalign=True)
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(480)
+        r.TurnInPlace(57.5)
+        r.TurnInPlace(57.5-r.hub.imu.heading(), used_for_autoalign=True)
+        r.DriveForDistance(350, speed=1500)
+        r.DriveForDistance(-20)
+        r.DriveForDistance(30)
         sleep(500)
-        r.DriveForDistance(-200)
+        r.DriveForDistance(-230)
         r.DriveForDistance(60)
         r.TurnInPlace(-50)
         r.DriveForDistance(-1000)
@@ -449,7 +461,7 @@ class Run:
     def Five(r:Robot):
         """
         Start Location:
-            One Purple Square Short Side Away from edge, flush against the back wall
+            One Long Setup Tool Side Away from edge, flush against the back wall, backwards
         
         What It Does:
             Shark
@@ -457,36 +469,53 @@ class Run:
             Coral Reef
         """
         # Away Location
-        r.MoveRightMotorUntilStalled(-800, duty_limit=18)
-        r.MoveLeftMotorUntilStalled(1000)
-        r.TurnInPlace(30)
-        r.MoveRightMotorInDegrees(95, wait=False)
-        r.MoveLeftMotorInDegrees(-155, wait=False)
-        r.DriveForDistance(800)
-        r.TurnInPlace(-110)
-        r.MoveRightMotorInDegrees(90, wait=False)
-        r.MoveLeftMotorInDegrees(-90, wait=False)
-        r.DriveForDistance(200, speed=200)
-        r.MoveRightMotorInDegrees(75, 2000, wait=False)
-        r.MoveLeftMotorInDegrees(80, 300)
-        r.MoveRightMotorInDegrees(-75, 2000, wait=False)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(-150)
+        r.MoveLeftMotorUntilStalled(-800, duty_limit=15)
+        r.leftBig.reset_angle(0)
+        r.leftBig.run(200)
+        while r.leftBig.angle() < 135:
+            sleep(10)
+        r.leftBig.stop()
+        r.DriveForDistance(-820)
+        r.TurnInPlace(45)
+        r.MoveRightMotorInDegrees(90)
+        sleep(500)
+        r.TurnInPlace(62.5)
+        r.MoveLeftMotorInDegrees(34, speed=300)
+        r.DriveForDistance(60)
+        r.MoveLeftMotorInDegrees(-35, speed=300,wait=False)
+        r.DriveForDistance(30, speed=300)
+        sleep(500)
+        r.DriveForDistance(-80)
         r.TurnInPlace(90)
-        r.MoveRightMotorInDegrees(60)
-        r.MoveLeftMotorInDegrees(-50)
-        r.DriveForDistance(100)
+        r.DriveForDistance(-150)
+        r.TurnInPlace(45)
+        r.DriveForDistance(50)
         r.TurnInPlace(-45)
-        r.MoveRightMotorInDegrees(60, 2000)
-        r.TurnInPlace(30)
-        r.DriveForDistance(100)
-        r.MoveLeftMotorInDegrees(-20)
-        r.DriveForDistance(-300, speed=1500)
-        r.TurnInPlace(-30)
-        r.DriveForDistance(-400, speed=1500)
+        r.DriveForDistance(125)
+        r.hub.imu.reset_heading(0)
+        r.DriveForDistance(150, speed=1000)
+        r.DriveForDistance(-30, speed=1000)
+        r.DriveForDistance(30, speed=1000)
+        r.DriveForDistance(-150, speed=1000)
+        r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
+        r.TurnInPlace(20)
+        r.DriveForDistance(-800)
         # Away Location
 
     def Six(r:Robot):
+        """
+        Start Location:
+            Facing the research vessel
+        
+        What It Does:
+            Ship/Research Boat Putting things in and pushing coral
+        """
+        # Away Location
+        r.DriveForDistance(430, speed=1500)
+        r.DriveForDistance(-400)
+        # End
+
+    def Seven(r:Robot):
         """
         Start Location:
             From aligned in the corner
@@ -496,12 +525,6 @@ class Run:
             Put samples into boat
             Crabs mission (x3 Crabs)
         """
-        # Away Location
-        r.DriveForDistance(400)
-        r.DriveForDistance(-400)
-        # End
-
-    def Seven(r:Robot):
         sleep(1000000)
 
     def Eight(r:Robot):
