@@ -84,6 +84,14 @@ class Robot:
             wait (bool, optional): _description_. Defaults to True.
             speed (_type_, optional): _description_. Defaults to ROBOT_SPEED.
         """
+        """Drives the robot forwards
+
+        Args:
+            distance (float): the distance in millimeters
+            then (_type_, optional): _description_. Defaults to Stop.BRAKE.
+            wait (bool, optional): _description_. Defaults to True.
+            speed (_type_, optional): _description_. Defaults to ROBOT_SPEED.
+        """
         # speed = Robot.Battery(speed)
         # distance = Robot.Battery(distance)
         self.driveBase.settings(straight_speed=speed)
