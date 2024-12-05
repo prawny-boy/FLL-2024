@@ -15,7 +15,6 @@ ROBOT_ACCELERATION = 750
 ROBOT_TURN_RATE = 750
 ROBOT_TURN_ACCELERATION = 3000
 ROBOT_MAX_TORQUE = 1000
-ROBOT_DUTY_LIMIT = 50
 
 # Variables
 battery_status_light = Color.GREEN
@@ -378,13 +377,13 @@ class Run:
             Squid
         """
         # Home Location
-        r.DriveForDistance(10)
-        r.TurnInPlace(-35)
-        r.DriveForDistance(800)
+        r.DriveForDistance(30)
+        r.TurnInPlace(-30)
+        r.DriveForDistance(770)
         r.MoveLeftMotorInDegrees(720)
         r.DriveForDistance(-1000)
         sleep(2000)
-        r.DriveForDistance(-600, speed=300)
+        r.DriveForDistance(-400, speed=300)
         r.DriveForDistance(600, speed=300)
         # Home Location
         
@@ -428,14 +427,9 @@ class Run:
         print("Heading: " + str(r.hub.imu.heading()))
         r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
         print("Fixed: " + str(r.hub.imu.heading()))
-        r.DriveForDistance(600)
-        r.DriveForDistance(-400)
-        r.TurnInPlace(30)
-        r.DriveForDistance(450)
-        r.DriveForDistance(-150)
-        r.TurnInPlace(-75)
-        r.DriveForDistance(150)
-        r.MoveLeftMotorInDegrees(180)
+        r.DriveForDistance(95)
+        Missions.Octopus(r)
+        r.TurnInPlace(-15)
         r.DriveForDistance(600)
         r.TurnInPlace(-90)
         r.DriveForDistance(800)
