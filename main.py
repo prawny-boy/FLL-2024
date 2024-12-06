@@ -32,6 +32,15 @@ turn_ratio = {
 # Define the Robot
 class Robot:
     def __init__(self):
+        """Initialises the Robot
+            Ports
+                Port A: Empty
+                Port B: Blue
+                Port C: White
+                Port D: Green
+                Port E: Empty
+                Port F: Yellow
+        """
         # DRIVE MOTORS: Left () Right () Big () Small ()
         self.leftDrive = Motor(Port.F, Direction.COUNTERCLOCKWISE)
         self.rightDrive = Motor(Port.B)
