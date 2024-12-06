@@ -276,7 +276,7 @@ class Missions:
     
     # Mission 6: Raise the Mast
     def RaiseMast(r:Robot):
-        pass
+        r.DriveForDistance(220, speed=1500)
     
     # Mission 7: Kraken's Treasure
     def Treasure(r:Robot):
@@ -301,7 +301,7 @@ class Missions:
     # Mission 11: Sonar Discovery
     class SonarDiscovery:
         def Whale1(r:Robot):
-            pass
+            r.MoveLeftMotorInDegrees(720)
         
         def Whale2(r:Robot):
             pass
@@ -350,29 +350,26 @@ class Run:
             Coral Collection (x3)
         """
         # Away Location
-        r.hub.imu.reset_heading(0)
-        r.DriveForDistance(20)
-        r.TurnInPlace(60)
-        r.DriveForDistance(290)
-        r.TurnInPlace(-60)
-        r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
-        r.DriveForDistance(370)
-        r.TurnInPlace(57)
-        r.DriveForDistance(285)
-        r.TurnInPlace(31.5)
-        r.DriveForDistance(270)
+        # r.hub.imu.reset_heading(0)
+        # r.DriveForDistance(20)
+        # r.TurnInPlace(60)
+        # r.DriveForDistance(270)
+        # r.TurnInPlace(-60)
+        # r.TurnInPlace(0-r.hub.imu.heading(), used_for_autoalign=True)
+        # r.DriveForDistance(370)
+        # r.TurnInPlace(57)
+        # r.DriveForDistance(285)
+        # r.TurnInPlace(31.5)
+        # r.DriveForDistance(290)
+        r.DriveForDistance(100)
+        r.TurnInPlace(30+1)
+        r.DriveForDistance(500)
+        r.TurnInPlace(34)
+        r.DriveForDistance(150+30+100+20)
+        r.TurnInPlace(35)
+        r.DriveForDistance(150+50+30+20)
         Missions.Samples.Seabed(r)
-        r.TurnInPlace(45, 30)
-        sleep(1500)
-        r.DriveForDistance(105)
-        r.TurnInPlace(-50)
-        r.DriveForDistance(545)
-        Missions.Samples.Kelp(r)
-        r.DriveForDistance(-70)
-        r.TurnInPlace(-30)
-        r.DriveForDistance(-175)
-        r.TurnInPlace(45)
-        r.DriveForDistance(1000)
+
         # Home Location
  
     def Two(r:Robot):
@@ -387,13 +384,21 @@ class Run:
         """
         # Home Location
         r.DriveForDistance(30)
-        r.TurnInPlace(-30)
-        r.DriveForDistance(770)
-        r.MoveLeftMotorInDegrees(720)
+        r.TurnInPlace(-24.6)
+        r.DriveForDistance(725)
+        Missions.SonarDiscovery.Whale1(r)
+        # r.TurnInPlace(-32)
+        # r.DriveForDistance(-300, speed=100)
+        # r.MoveRightMotorInDegrees(-200)
+        # r.DriveForDistance(-50)
+        # r.DriveForDistance(30)
+        # r.TurnInPlace(-30)
+        # r.DriveForDistance(-100)
+        
         r.DriveForDistance(-1000)
-        sleep(2000)
-        r.DriveForDistance(-400, speed=300)
-        r.DriveForDistance(600, speed=300)
+        sleep(500)
+        r.DriveForDistance(-400)
+        r.DriveForDistance(400)
         # Home Location
         
     def Three(r:Robot):
@@ -438,7 +443,7 @@ class Run:
         print("Fixed: " + str(r.hub.imu.heading()))
         r.DriveForDistance(60)
         Missions.Octopus(r)
-        r.TurnInPlace(-15)
+        r.TurnInPlace(-20)
         r.DriveForDistance(638)
         r.TurnInPlace(-90)
         r.DriveForDistance(800)
@@ -451,26 +456,28 @@ class Run:
         
         What it does: 
             Raise the mast
-            Kracken's Treasure
+            Kracken's Treasure (N/A)
             Coral Buds
         """
         # Away Location
-        r.rightBig.run(1500)
-        r.leftBig.run(1500)
         r.hub.imu.reset_heading(0)
-        r.TurnInPlace(32.5)
-        r.TurnInPlace(32.5-r.hub.imu.heading(), used_for_autoalign=True)
+        value = 30
+        r.TurnInPlace(value)
+        r.TurnInPlace(value-r.hub.imu.heading(), used_for_autoalign=True)
         r.hub.imu.reset_heading(0)
-        r.DriveForDistance(480)
-        r.TurnInPlace(57.5)
-        r.TurnInPlace(57.5-r.hub.imu.heading(), used_for_autoalign=True)
-        r.DriveForDistance(350, speed=1500)
-        r.DriveForDistance(-20)
-        r.DriveForDistance(30)
+        r.DriveForDistance(470)
+        value = 75
+        r.TurnInPlace(value)
+        r.TurnInPlace(value-r.hub.imu.heading(), used_for_autoalign=True)
+        Missions.RaiseMast(r)
         sleep(500)
-        r.DriveForDistance(-230)
-        r.DriveForDistance(60)
-        r.TurnInPlace(-50)
+        r.DriveForDistance(-120)
+        r.TurnInPlace(20)
+        distance = 120
+        r.DriveForDistance(-distance, speed=1500)
+        r.DriveForDistance(distance)
+        sleep(500)
+        r.TurnInPlace(-90)
         r.DriveForDistance(-1000)
         # Away Location
 
@@ -491,18 +498,21 @@ class Run:
         while r.leftBig.angle() < 135:
             sleep(10)
         r.leftBig.stop()
-        r.DriveForDistance(-830)
-        r.TurnInPlace(45)
+        r.DriveForDistance(-800)
+        r.TurnInPlace(48)
         r.MoveRightMotorInDegrees(90)
         sleep(500)
-        r.TurnInPlace(77)
-        r.MoveLeftMotorInDegrees(35, speed=300)
-        r.DriveForDistance(60)
+        r.TurnInPlace(60)
+        r.MoveLeftMotorInDegrees(34, speed=300)
+        r.DriveForDistance(65)
         r.MoveLeftMotorInDegrees(-35, speed=300,wait=False)
+        # Scuba diver grabbed
         r.DriveForDistance(30, speed=300)
         sleep(500)
-        r.DriveForDistance(-120)
-        r.TurnInPlace(-110)
+        r.DriveForDistance(-100)
+        r.TurnInPlace(60)
+        r.DriveForDistance(200, speed=100)
+        r.DriveForDistance(-1000)
         # r.DriveForDistance(-150)
         # r.TurnInPlace(45)
         # r.DriveForDistance(50)
@@ -541,6 +551,7 @@ class Run:
             Put samples into boat
             Crabs mission (x3 Crabs)
         """
+        r.MoveLeftMotorInDegrees(200)
         sleep(1000000)
 
     def Eight(r:Robot):
